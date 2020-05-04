@@ -4,20 +4,20 @@ class FieldEngine {
   private rows: number;
   private columns: number;
 
+  private grid: JSX.Element[] = [];
+
   state = false;
 
   constructor(rows: number, columns: number) {
     this.rows = rows;
     this.columns = columns;
-  }
 
-  getField() {
-    const arr = [];
     for (let i = 0; i < this.rows; i++) {
       let cols = [];
       for (let j = 0; j < this.columns; j++) {
         cols.push(
           <td
+            key={`${i}-${j}`}
             onClick={() => {
               console.log(i, j);
               this.state = !this.state;
@@ -25,9 +25,12 @@ class FieldEngine {
           ></td>
         );
       }
-      arr.push(<tr>{cols}</tr>);
+      this.grid.push(<tr>{cols}</tr>);
     }
-    return arr;
+  }
+
+  getField() {
+    return this.grid;
   }
 }
 

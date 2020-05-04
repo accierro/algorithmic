@@ -22,7 +22,6 @@ const Field: React.FC<{}> = () => {
   return (
     <table className="field">
       <tbody> {field.getField()}</tbody>
-      <h2>{counter}</h2>
     </table>
   );
 };
