@@ -10,10 +10,13 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@xstate/react": "^0.8.1",
+    "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "typescript": "^3.9.0-beta"
+    "typescript": "^3.9.0-beta",
+    "xstate": "^4.9.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.150",
     "node-sass": "^4.14.0"
   }
 }
