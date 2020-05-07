@@ -1,16 +1,10 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useMachine } from "@xstate/react";
 import "../../css/field.scss";
 import FieldStateMachine from "../../machine/FieldStateMachine";
 import _ from "lodash";
-
-type Cell = {
-  x: number;
-  y: number;
-  visited: boolean;
-  isStart: boolean;
-  isEnd: boolean;
-};
+import { Cell } from "../../types";
+import FieldRow from "./FieldRow";
 
 function getGrid(rows: number, columns: number): Cell[][] {
   const arr = [];
@@ -31,19 +25,20 @@ function getGrid(rows: number, columns: number): Cell[][] {
 }
 
 const Field: React.FC<{}> = () => {
-  const [counter, setCounter] = useState(0);
+  const [changeDiff, setChangeDiff] = useState<number[]>([]);
+  let grid = useRef<Cell[][]>(getGrid(30, 70)).current;
   const ref = useRef<{ copy: Cell[][]; queue: Cell[]; target: Cell } | null>(
     null
   );
-  const [grid, setGrid] = useState<Cell[][]>(getGrid(30, 70));
+  // const [grid, setGrid] = useState<Cell[][]>(getGrid(30, 70));
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [end, setEnd] = useState<{ x: number; y: number } | null>(null);
-  const [state, send] = useMachine(FieldStateMachine);
+  // const [state, send] = useMachine(FieldStateMachine);
   const requestRef = useRef<number | null>(null);
   useEffect(() => {
     if (start && end) {
       if (ref.current === null) {
-        const copy = _.cloneDeep(grid);
+        const copy = grid;
         copy[start.x][start.y].visited = true;
         const queue = [copy[start.x][start.y]];
         const target = copy[end.x][end.y];
@@ -52,7 +47,7 @@ const Field: React.FC<{}> = () => {
           queue,
           target,
         };
-        setCounter((prev) => prev + 1);
+        setChangeDiff([]);
       }
     }
   }, [start, end]);
@@ -64,37 +59,19 @@ const Field: React.FC<{}> = () => {
       target: Cell;
     };
     let found = false;
+    const changedRows = [];
     if (queue.length !== 0) {
       const node = queue.shift() as Cell;
 
       const { x, y } = node;
-      if (x + 1 < 30) {
-        const check = copy[x + 1][y];
-        if (check === target) {
-          console.log("FOUND");
-          found = true;
-        } else if (!check.visited) {
-          check.visited = true;
-          queue.push(check);
-        }
-      }
 
-      if (y + 1 < 70) {
-        const check = copy[x][y + 1];
-        if (check === target) {
-          console.log("FOUND");
-          found = true;
-        } else if (!check.visited) {
-          check.visited = true;
-          queue.push(check);
-        }
-      }
       if (x - 1 >= 0) {
         const check = copy[x - 1][y];
         if (check === target) {
           console.log("FOUND");
           found = true;
         } else if (!check.visited) {
+          changedRows.push(x - 1);
           check.visited = true;
           queue.push(check);
         }
@@ -106,16 +83,39 @@ const Field: React.FC<{}> = () => {
           console.log("FOUND");
           found = true;
         } else if (!check.visited) {
+          changedRows.push(x);
+          check.visited = true;
+          queue.push(check);
+        }
+      }
+
+      if (y + 1 < 70) {
+        const check = copy[x][y + 1];
+        if (check === target) {
+          console.log("FOUND");
+          found = true;
+        } else if (!check.visited) {
+          changedRows.push(x);
+          check.visited = true;
+          queue.push(check);
+        }
+      }
+
+      if (x + 1 < 30) {
+        const check = copy[x + 1][y];
+        if (check === target) {
+          console.log("FOUND");
+          found = true;
+        } else if (!check.visited) {
+          changedRows.push(x + 1);
           check.visited = true;
           queue.push(check);
         }
       }
     }
 
-    setGrid(copy);
-
     if (!found) {
-      setCounter((prev) => prev + 1);
+      setChangeDiff(changedRows);
       requestRef.current = requestAnimationFrame(animate);
     }
   };
@@ -129,65 +129,41 @@ const Field: React.FC<{}> = () => {
         ? cancelAnimationFrame(requestRef.current)
         : undefined;
   }, [ref.current]);
-  const rows = 30;
-  const columns = 70;
-  const arr = grid.map((r) => (
-    <tr>
-      {r.map((c) => {
-        return (
-          <td
-            style={{
-              background: c.isStart
-                ? "green"
-                : c.isEnd
-                ? "red"
-                : c.visited
-                ? "blue"
-                : "white",
-            }}
-            key={`${c.x}-${c.y}`}
-            onClick={() => {
-              if (start === null) {
-                setStart({ x: c.x, y: c.y });
-                setGrid((prev) => {
-                  return prev.map((i) => {
-                    return i.map((j) => {
-                      if (j === c) {
-                        return { ...j, isStart: true };
-                      }
-                      return j;
-                    });
-                  });
-                });
-              }
-              if (end === null && start !== null) {
-                setEnd({ x: c.x, y: c.y });
-                setGrid((prev) => {
-                  return prev.map((i) => {
-                    return i.map((j) => {
-                      if (j === c) {
-                        return { ...j, isEnd: true };
-                      }
-                      return j;
-                    });
-                  });
-                });
-              }
-            }}
-          >
-            {""}
-          </td>
-        );
-      })}
-    </tr>
-  ));
 
+  const clickCallback = useCallback(
+    (r: number, c: number) => {
+      if (start === null) {
+        setStart({ x: r, y: c });
+        setChangeDiff([r]);
+        grid[r][c].isStart = true;
+      }
+      if (end === null && start !== null) {
+        setEnd({ x: r, y: c });
+        setChangeDiff([r]);
+        grid[r][c].isEnd = true;
+      }
+    },
+    [start, end]
+  );
   return (
     <>
       <table className="field">
-        <tbody>{arr}</tbody>
+        <tbody>
+          {grid.map((r, i) => {
+            const shouldRender = changeDiff.includes(i);
+            return (
+              <FieldRow
+                key={i}
+                i={i}
+                row={r}
+                onClick={clickCallback}
+                areEqual={shouldRender}
+              />
+            );
+          })}
+        </tbody>
       </table>
-      <button onClick={() => setCounter((prev) => prev + 1)}>Rerender</button>
+      <button onClick={() => setChangeDiff([])}>Rerender</button>
     </>
   );
 };
