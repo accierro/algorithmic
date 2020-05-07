@@ -4,4 +4,5 @@ export type Cell = {
   visited: boolean;
   isStart: boolean;
   isEnd: boolean;
+  isWall: boolean;
 };

@@ -4,19 +4,22 @@ import { Cell } from "../../types";
 type FieldRowProps = {
   row: Cell[];
   areEqual: boolean;
-  onClick: (r: number, c: number) => void;
-
-  i: number;
+  onClick: (
+    e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>,
+    r: number,
+    c: number
+  ) => void;
 };
 
-const FieldRow: React.FC<FieldRowProps> = ({ row, onClick, i }) => {
-  console.log("RENDER", i);
+const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
   return (
     <tr>
       {row.map((c) => (
         <td
           style={{
-            background: c.isStart
+            background: c.isWall
+              ? "black"
+              : c.isStart
               ? "green"
               : c.isEnd
               ? "red"
@@ -25,7 +28,7 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick, i }) => {
               : "white",
           }}
           key={`${c.x}-${c.y}`}
-          onClick={() => onClick(c.x, c.y)}
+          onClick={(e) => onClick(e, c.x, c.y)}
         >
           {""}
         </td>
@@ -35,6 +38,5 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick, i }) => {
 };
 
 export default memo(FieldRow, (prev, next) => {
-  console.log(prev.onClick === next.onClick && next.areEqual);
   return prev.onClick === next.onClick && next.areEqual;
 });

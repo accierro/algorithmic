@@ -17,6 +17,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
         visited: false,
         isStart: false,
         isEnd: false,
+        isWall: false,
       });
     }
     arr.push(row);
@@ -114,7 +115,7 @@ const Field: React.FC<{}> = () => {
       }
     }
 
-    if (!found) {
+    if (!found && queue.length !== 0) {
       setChangeDiff(changedRows);
       requestRef.current = requestAnimationFrame(animate);
     }
@@ -131,16 +132,26 @@ const Field: React.FC<{}> = () => {
   }, [ref.current]);
 
   const clickCallback = useCallback(
-    (r: number, c: number) => {
-      if (start === null) {
-        setStart({ x: r, y: c });
+    (
+      event: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>,
+      r: number,
+      c: number
+    ) => {
+      if (event.metaKey || event.ctrlKey) {
+        grid[r][c].isWall = true;
+        grid[r][c].visited = true;
         setChangeDiff([r]);
-        grid[r][c].isStart = true;
-      }
-      if (end === null && start !== null) {
-        setEnd({ x: r, y: c });
-        setChangeDiff([r]);
-        grid[r][c].isEnd = true;
+      } else {
+        if (start === null) {
+          setStart({ x: r, y: c });
+          setChangeDiff([r]);
+          grid[r][c].isStart = true;
+        }
+        if (end === null && start !== null) {
+          setEnd({ x: r, y: c });
+          setChangeDiff([r]);
+          grid[r][c].isEnd = true;
+        }
       }
     },
     [start, end]
@@ -154,7 +165,6 @@ const Field: React.FC<{}> = () => {
             return (
               <FieldRow
                 key={i}
-                i={i}
                 row={r}
                 onClick={clickCallback}
                 areEqual={!shouldRender}
