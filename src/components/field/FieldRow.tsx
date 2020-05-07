@@ -10,7 +10,7 @@ type FieldRowProps = {
 };
 
 const FieldRow: React.FC<FieldRowProps> = ({ row, onClick, i }) => {
-  //   console.log("RENDER", i);
+  console.log("RENDER", i);
   return (
     <tr>
       {row.map((c) => (
@@ -35,5 +35,6 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick, i }) => {
 };
 
 export default memo(FieldRow, (prev, next) => {
-  return !(prev.onClick === next.onClick || next.areEqual);
+  console.log(prev.onClick === next.onClick && next.areEqual);
+  return prev.onClick === next.onClick && next.areEqual;
 });

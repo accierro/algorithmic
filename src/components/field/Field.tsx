@@ -157,7 +157,7 @@ const Field: React.FC<{}> = () => {
                 i={i}
                 row={r}
                 onClick={clickCallback}
-                areEqual={shouldRender}
+                areEqual={!shouldRender}
               />
             );
           })}
