@@ -1,10 +1,17 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+} from "react";
 import { useMachine } from "@xstate/react";
 import "../../css/field.scss";
 import FieldStateMachine from "../../machine/FieldStateMachine";
 import _ from "lodash";
 import { Cell } from "../../types";
 import FieldRow from "./FieldRow";
+import GridSettingsContext from "../../context/GridSettingsContext";
 
 function getGrid(rows: number, columns: number): Cell[][] {
   const arr = [];
@@ -25,13 +32,16 @@ function getGrid(rows: number, columns: number): Cell[][] {
   return arr;
 }
 
+const ROWS = 60;
+const COLUMNS = 70;
+
 const Field: React.FC<{}> = () => {
+  const { algorithm } = useContext(GridSettingsContext);
   const [changeDiff, setChangeDiff] = useState<number[]>([]);
-  let grid = useRef<Cell[][]>(getGrid(30, 70)).current;
+  let grid = useRef<Cell[][]>(getGrid(ROWS, COLUMNS)).current;
   const ref = useRef<{ copy: Cell[][]; queue: Cell[]; target: Cell } | null>(
     null
   );
-  // const [grid, setGrid] = useState<Cell[][]>(getGrid(30, 70));
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [end, setEnd] = useState<{ x: number; y: number } | null>(null);
   // const [state, send] = useMachine(FieldStateMachine);
@@ -59,61 +69,14 @@ const Field: React.FC<{}> = () => {
       queue: Cell[];
       target: Cell;
     };
-    let found = false;
-    const changedRows = [];
-    if (queue.length !== 0) {
-      const node = queue.shift() as Cell;
 
-      const { x, y } = node;
-
-      if (x - 1 >= 0) {
-        const check = copy[x - 1][y];
-        if (check === target) {
-          console.log("FOUND");
-          found = true;
-        } else if (!check.visited) {
-          changedRows.push(x - 1);
-          check.visited = true;
-          queue.push(check);
-        }
-      }
-
-      if (y - 1 >= 0) {
-        const check = copy[x][y - 1];
-        if (check === target) {
-          console.log("FOUND");
-          found = true;
-        } else if (!check.visited) {
-          changedRows.push(x);
-          check.visited = true;
-          queue.push(check);
-        }
-      }
-
-      if (y + 1 < 70) {
-        const check = copy[x][y + 1];
-        if (check === target) {
-          console.log("FOUND");
-          found = true;
-        } else if (!check.visited) {
-          changedRows.push(x);
-          check.visited = true;
-          queue.push(check);
-        }
-      }
-
-      if (x + 1 < 30) {
-        const check = copy[x + 1][y];
-        if (check === target) {
-          console.log("FOUND");
-          found = true;
-        } else if (!check.visited) {
-          changedRows.push(x + 1);
-          check.visited = true;
-          queue.push(check);
-        }
-      }
-    }
+    const { found, changedRows } = algorithm.tick({
+      grid: copy,
+      queue,
+      target,
+      rows: ROWS,
+      columns: COLUMNS,
+    });
 
     if (!found && queue.length !== 0) {
       setChangeDiff(changedRows);
