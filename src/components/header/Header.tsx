@@ -5,13 +5,12 @@ import { ALGORITHMS } from "../../constants/Algorithms";
 
 const Header: React.FC<{}> = () => {
   const { algorithm, setAlgorithm } = useContext(GridSettingsContext);
-  console.log(ALGORITHMS);
   return (
     <header>
       Algorithmic
       <select
         onChange={(e) => {
-          setAlgorithm(e.target.value);
+          setAlgorithm(ALGORITHMS[e.target.value]);
         }}
       >
         {Object.keys(ALGORITHMS).map((key) => {

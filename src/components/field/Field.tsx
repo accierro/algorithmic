@@ -61,9 +61,8 @@ const Field: React.FC<{}> = () => {
 
   const animate = () => {
     const { resume, changedRows } = (ref.current as IAlgorithm).tick();
-    console.log(resume, changedRows);
+    setChangeDiff(changedRows);
     if (resume) {
-      setChangeDiff(changedRows);
       requestRef.current = requestAnimationFrame(animate);
     }
   };
