@@ -9,7 +9,7 @@ import { useMachine } from "@xstate/react";
 import "../../css/field.scss";
 import FieldStateMachine from "../../machine/FieldStateMachine";
 import _ from "lodash";
-import { Cell } from "../../types";
+import { Cell, IAlgorithm } from "../../types";
 import FieldRow from "./FieldRow";
 import GridSettingsContext from "../../context/GridSettingsContext";
 
@@ -39,9 +39,7 @@ const Field: React.FC<{}> = () => {
   const { algorithm } = useContext(GridSettingsContext);
   const [changeDiff, setChangeDiff] = useState<number[]>([]);
   let grid = useRef<Cell[][]>(getGrid(ROWS, COLUMNS)).current;
-  const ref = useRef<{ copy: Cell[][]; queue: Cell[]; target: Cell } | null>(
-    null
-  );
+  const ref = useRef<IAlgorithm | null>(null);
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [end, setEnd] = useState<{ x: number; y: number } | null>(null);
   // const [state, send] = useMachine(FieldStateMachine);
@@ -49,36 +47,22 @@ const Field: React.FC<{}> = () => {
   useEffect(() => {
     if (start && end) {
       if (ref.current === null) {
-        const copy = grid;
-        copy[start.x][start.y].visited = true;
-        const queue = [copy[start.x][start.y]];
-        const target = copy[end.x][end.y];
-        ref.current = {
-          copy,
-          queue,
-          target,
-        };
+        ref.current = algorithm.start({
+          grid,
+          startCell: grid[start.x][start.y],
+          targetCell: grid[end.x][end.y],
+          rows: ROWS,
+          columns: COLUMNS,
+        });
         setChangeDiff([]);
       }
     }
   }, [start, end]);
 
   const animate = () => {
-    const { queue, copy, target } = ref.current as {
-      copy: Cell[][];
-      queue: Cell[];
-      target: Cell;
-    };
-
-    const { found, changedRows } = algorithm.tick({
-      grid: copy,
-      queue,
-      target,
-      rows: ROWS,
-      columns: COLUMNS,
-    });
-
-    if (!found && queue.length !== 0) {
+    const { resume, changedRows } = (ref.current as IAlgorithm).tick();
+    console.log(resume, changedRows);
+    if (resume) {
       setChangeDiff(changedRows);
       requestRef.current = requestAnimationFrame(animate);
     }
