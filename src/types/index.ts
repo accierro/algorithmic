@@ -5,6 +5,7 @@ export type Cell = {
   isStart: boolean;
   isEnd: boolean;
   isWall: boolean;
+  isShortestPath: boolean;
 };
 
 export * from "./enums";

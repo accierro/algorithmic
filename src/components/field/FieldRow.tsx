@@ -17,7 +17,9 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
       {row.map((c) => (
         <td
           style={{
-            background: c.isWall
+            background: c.isShortestPath
+              ? "yellow"
+              : c.isWall
               ? "black"
               : c.isStart
               ? "green"

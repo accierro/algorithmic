@@ -25,6 +25,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
         isStart: false,
         isEnd: false,
         isWall: false,
+        isShortestPath: false,
       });
     }
     arr.push(row);
