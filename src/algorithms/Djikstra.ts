@@ -1,26 +1,14 @@
 import { AlgorithmOptions, Cell } from "../types";
 import PriorityQueue from "./PriorityQueue";
+import BaseAlgorithm from "./BaseAlgorithm";
 
-class Djikstra {
-  private grid: Cell[][];
-
-  private startCell: Cell;
-  private targetCell: Cell;
-
-  private rows: number;
-  private columns: number;
-
+class Djikstra extends BaseAlgorithm {
   private dist = new Map<Cell, number>();
   private queue = new PriorityQueue<Cell>();
   private previousCell = new Map<Cell, Cell | null>();
 
   constructor(options: AlgorithmOptions) {
-    this.grid = options.grid;
-    this.startCell = options.startCell;
-    this.targetCell = options.targetCell;
-
-    this.rows = options.rows;
-    this.columns = options.columns;
+    super(options);
 
     this.dist.set(this.startCell, 0);
 
