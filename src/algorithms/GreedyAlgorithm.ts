@@ -1,8 +1,8 @@
+import BaseAlgorithm from "./BaseAlgorithm";
 import { AlgorithmOptions, Cell } from "../types";
 import PriorityQueue from "./PriorityQueue";
-import BaseAlgorithm from "./BaseAlgorithm";
 
-class Djikstra extends BaseAlgorithm {
+class GreedyAlgorithm extends BaseAlgorithm {
   private dist = new Map<Cell, number>();
   private queue = new PriorityQueue<Cell>();
   private previousCell = new Map<Cell, Cell | null>();
@@ -35,18 +35,18 @@ class Djikstra extends BaseAlgorithm {
 
       this.getNeighboors(node).forEach((n) => {
         const exisitingDist = this.dist.get(n) as number;
-        const distToNeighboor = (this.dist.get(node) as number) + 1;
+        const distToTarget = this.manhattanDistanceHeuristic(n);
 
-        if (distToNeighboor < exisitingDist) {
-          this.dist.set(n, distToNeighboor);
+        if (distToTarget < exisitingDist) {
+          this.dist.set(n, distToTarget);
 
           if (this.queue.hasValue(n)) {
-            this.queue.changePriority(n, distToNeighboor);
+            this.queue.changePriority(n, distToTarget);
           }
         }
 
         if (!this.queue.hasValue(n)) {
-          this.queue.enqueue(n, distToNeighboor);
+          this.queue.enqueue(n, distToTarget);
         }
 
         this.previousCell.set(n, node);
@@ -73,6 +73,12 @@ class Djikstra extends BaseAlgorithm {
 
     return { resume: !found || this.queue.isEmpty(), changedRows };
   }
+
+  manhattanDistanceHeuristic(cell: Cell): number {
+    const dx = Math.abs(cell.x - this.targetCell.x);
+    const dy = Math.abs(cell.y - this.targetCell.y);
+    return dx + dy;
+  }
 }
 
-export default Djikstra;
+export default GreedyAlgorithm;

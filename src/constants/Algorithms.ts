@@ -2,6 +2,7 @@ import { AlgorithmEnum, Algorithm, AlgorithmStore, Cell } from "../types";
 import BreadthFirstSearch from "../algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "../algorithms/DepthFirstSearch";
 import Djikstra from "../algorithms/Djikstra";
+import GreedyAlgorithm from "../algorithms/GreedyAlgorithm";
 
 export const ALGORITHMS: AlgorithmStore = {
   [AlgorithmEnum.BREADTH_FIRST_SEARCH]: {
@@ -23,6 +24,13 @@ export const ALGORITHMS: AlgorithmStore = {
     id: AlgorithmEnum.DJIKSTRA,
     start: (options) => {
       return new Djikstra(options);
+    },
+  },
+  [AlgorithmEnum.GREEDY_ALGORITHM]: {
+    name: "Greedy Algorithm",
+    id: AlgorithmEnum.GREEDY_ALGORITHM,
+    start: (options) => {
+      return new GreedyAlgorithm(options);
     },
   },
 };
