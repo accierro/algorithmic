@@ -4,11 +4,11 @@ import GridSettingsContext from "../../context/GridSettingsContext";
 import { ALGORITHMS } from "../../constants/Algorithms";
 
 const Header: React.FC<{}> = () => {
-  const { algorithm, setAlgorithm } = useContext(GridSettingsContext);
+  // const { algorithm, setAlgorithm } = useContext(GridSettingsContext);
   return (
     <header>
       Algorithmic
-      <select
+      {/* <select
         onChange={(e) => {
           setAlgorithm(ALGORITHMS[e.target.value]);
         }}
@@ -23,7 +23,7 @@ const Header: React.FC<{}> = () => {
             </option>
           );
         })}
-      </select>
+      </select> */}
     </header>
   );
 };

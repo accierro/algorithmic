@@ -3,4 +3,5 @@ export enum AlgorithmEnum {
   DEPTH_FIRST_SEARCH,
   DJIKSTRA,
   GREEDY_ALGORITHM,
+  A_STAR_ALGORITHM,
 }

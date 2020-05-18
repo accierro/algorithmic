@@ -17,7 +17,6 @@ function App() {
         value={{ algorithm: gridSettings, setAlgorithm: setGridSettings }}
       >
         <MainView />
-        <Field />
       </GridSettingsContext.Provider>
     </div>
   );

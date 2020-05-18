@@ -1,12 +1,19 @@
+@import "./colors.scss";
 .field {
+  box-shadow: rgba(0, 0, 0, 0.1) 2px 4px 12px 7px,
+    rgba(0, 0, 0, 0.3) 1px 2px 3px;
+  background: $grey2;
+  margin: 0 auto;
   td {
     width: 10px;
     height: 10px;
     border: 1px solid black;
-    transition: background 0.5s;
+    transition: background 1s;
+    border: 1px solid $grey1;
+    border-spacing: 0;
 
     &:hover {
-      background: grey;
+      background: black;
     }
   }
 }

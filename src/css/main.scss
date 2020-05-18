@@ -1,0 +1,25 @@
+@import "./colors.scss";
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  background: $grey5;
+}
+
+header {
+  font-size: 26px;
+  padding: 16px 0 16px 32px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.9) 50%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  color: $white;
+  margin-bottom: 36px;
+  box-shadow: $grey6 0 3px 3px;
+}

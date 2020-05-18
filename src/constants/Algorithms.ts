@@ -3,6 +3,7 @@ import BreadthFirstSearch from "../algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "../algorithms/DepthFirstSearch";
 import Djikstra from "../algorithms/Djikstra";
 import GreedyAlgorithm from "../algorithms/GreedyAlgorithm";
+import AStarAlgorithm from "../algorithms/AStarAlgorithm";
 
 export const ALGORITHMS: AlgorithmStore = {
   [AlgorithmEnum.BREADTH_FIRST_SEARCH]: {
@@ -31,6 +32,13 @@ export const ALGORITHMS: AlgorithmStore = {
     id: AlgorithmEnum.GREEDY_ALGORITHM,
     start: (options) => {
       return new GreedyAlgorithm(options);
+    },
+  },
+  [AlgorithmEnum.A_STAR_ALGORITHM]: {
+    name: "A* Algorithm",
+    id: AlgorithmEnum.A_STAR_ALGORITHM,
+    start: (options) => {
+      return new AStarAlgorithm(options);
     },
   },
 };

@@ -105,7 +105,7 @@ const Field: React.FC<{}> = () => {
   );
   return (
     <>
-      <table className="field">
+      <table className="field" cellSpacing={0}>
         <tbody>
           {grid.map((r, i) => {
             const shouldRender = changeDiff.includes(i);
@@ -120,7 +120,6 @@ const Field: React.FC<{}> = () => {
           })}
         </tbody>
       </table>
-      <button onClick={() => setChangeDiff([])}>Rerender</button>
     </>
   );
 };

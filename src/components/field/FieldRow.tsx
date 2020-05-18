@@ -27,7 +27,7 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
               ? "red"
               : c.visited
               ? "blue"
-              : "white",
+              : "unset",
           }}
           key={`${c.x}-${c.y}`}
           onClick={(e) => onClick(e, c.x, c.y)}
