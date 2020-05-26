@@ -33,7 +33,7 @@ class AStarAlgorithm extends BaseAlgorithm {
 
       const { x, y } = node;
 
-      this.getNeighboors(node).forEach((n) => {
+      this.getNeighboors(this.grid, node).forEach((n) => {
         const exisitingDist = this.dist.get(n) as number;
         const distToTarget =
           (this.dist.get(node) as number) +

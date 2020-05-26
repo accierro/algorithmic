@@ -1,16 +1,61 @@
 @import "./colors.scss";
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.3);
+    background: #19395a;
+    border-radius: 100%;
+  }
+  50% {
+    background: $tealBlue;
+  }
+  100% {
+    border-radius: 0;
+    transform: scale(1);
+    background: $blue;
+  }
+}
+
 .field {
-  box-shadow: rgba(0, 0, 0, 0.1) 2px 4px 12px 7px,
-    rgba(0, 0, 0, 0.3) 1px 2px 3px;
-  background: $grey2;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 10px, rgba(0, 0, 0, 0.2) 1px 2px 3px;
+  background: $grey1;
   margin: 0 auto;
   td {
-    width: 10px;
-    height: 10px;
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  tr:nth-child(1) {
+    td:nth-child(1) {
+      border-radius: 8px 0 0 0;
+    }
+    td:nth-last-child(1) {
+      border-radius: 0 8px 0 0;
+    }
+  }
+
+  tr:nth-last-child(1) {
+    td:nth-child(1) {
+      border-radius: 0 0 0 8px;
+    }
+    td:nth-last-child(1) {
+      border-radius: 0 0 8px 0;
+    }
+  }
+
+  td {
+    width: 12px;
+    height: 12px;
     transition: background 1s;
-    border: 1px solid $grey1;
     border-spacing: 0;
+
+    &.visited {
+      background: $blue;
+      border: none;
+      width: 12px;
+      height: 12px;
+      animation: pulse 1s ease-in-out;
+    }
 
     &:hover {
       background: black;

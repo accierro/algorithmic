@@ -26,6 +26,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
         isEnd: false,
         isWall: false,
         isShortestPath: false,
+        iter: 0,
       });
     }
     arr.push(row);
@@ -33,7 +34,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
   return arr;
 }
 
-const ROWS = 60;
+const ROWS = 50;
 const COLUMNS = 70;
 
 const Field: React.FC<{}> = () => {
@@ -105,7 +106,13 @@ const Field: React.FC<{}> = () => {
   );
   return (
     <>
-      <table className="field" cellSpacing={0}>
+      <table
+        className="field"
+        cellSpacing={0}
+        onMouseDown={() => console.log("Mouse down")}
+        onMouseLeave={() => console.log("Mouse leave")}
+        onMouseUp={() => console.log("Mouse up")}
+      >
         <tbody>
           {grid.map((r, i) => {
             const shouldRender = changeDiff.includes(i);

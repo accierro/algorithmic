@@ -1,6 +1,17 @@
 import React, { memo } from "react";
 import { Cell } from "../../types";
 
+function getColor(iter: number): string {
+  const red = 1 + (10 - 1) * (iter / (30 * 70));
+  const green = 14 + (132 - 14) * (iter / (30 * 70));
+  const blue = 27 + (255 - 27) * (iter / (30 * 70));
+
+  return `rgb(${Math.min(10, red)}, ${Math.min(132, green)}, ${Math.min(
+    255,
+    blue
+  )})`;
+}
+
 type FieldRowProps = {
   row: Cell[];
   areEqual: boolean;
@@ -12,29 +23,37 @@ type FieldRowProps = {
 };
 
 const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
+  console.log(row[0].iter);
   return (
     <tr>
-      {row.map((c) => (
-        <td
-          style={{
-            background: c.isShortestPath
-              ? "yellow"
-              : c.isWall
-              ? "black"
-              : c.isStart
-              ? "green"
-              : c.isEnd
-              ? "red"
-              : c.visited
-              ? "blue"
-              : "unset",
-          }}
-          key={`${c.x}-${c.y}`}
-          onClick={(e) => onClick(e, c.x, c.y)}
-        >
-          {""}
-        </td>
-      ))}
+      {row.map((c) => {
+        return (
+          <td
+            data-color={"red"}
+            className={`${
+              c.isShortestPath
+                ? "shortest"
+                : c.isWall
+                ? "wall"
+                : c.isStart
+                ? "start"
+                : c.isEnd
+                ? "end"
+                : c.visited
+                ? "visited"
+                : ""
+            }`}
+            style={{
+              background:
+                c.visited && c.iter != 0 ? getColor(c.iter) : undefined,
+            }}
+            key={`${c.x}-${c.y}`}
+            onClick={(e) => onClick(e, c.x, c.y)}
+          >
+            {""}
+          </td>
+        );
+      })}
     </tr>
   );
 };

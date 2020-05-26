@@ -14,7 +14,7 @@ class BreadthFirstSearch extends BaseAlgorithm {
     const changedRows: number[] = [];
     if (this.queue.length !== 0) {
       const node = this.queue.shift() as Cell;
-      this.getNeighboors(node).forEach((n) => {
+      this.getNeighboors(this.grid, node).forEach((n) => {
         if (n === this.targetCell) {
           found = true;
         } else if (!n.visited) {

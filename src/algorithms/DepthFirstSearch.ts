@@ -20,7 +20,7 @@ class DepthFirstSearch extends BaseAlgorithm {
       const { x, y } = node;
       changedRows.push(x);
 
-      this.getNeighboors(node).forEach((n) => {
+      this.getNeighboors(this.grid, node).forEach((n) => {
         if (n === this.targetCell) {
           found = true;
         } else if (!n.visited) {
