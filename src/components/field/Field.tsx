@@ -104,14 +104,44 @@ const Field: React.FC<{}> = () => {
     },
     [start, end]
   );
+
+  const table = useRef<HTMLTableElement | null>(null);
+  const onMouseMoveHandler = useCallback(
+    (e: MouseEvent) => {
+      if (e.altKey && table.current) {
+        const y = Math.floor((e.pageX - table.current.offsetLeft) / 16);
+        const x = Math.floor((e.pageY - table.current.offsetTop) / 16);
+        const cell = grid[x][y];
+        if (
+          cell &&
+          !(cell.visited && cell.isWall && cell.isStart && cell.isEnd)
+        ) {
+          cell.isWall = true;
+          setChangeDiff([x]);
+        }
+      }
+    },
+    [grid]
+  );
+
   return (
     <>
       <table
+        ref={table}
         className="field"
         cellSpacing={0}
-        onMouseDown={() => console.log("Mouse down")}
-        onMouseLeave={() => console.log("Mouse leave")}
-        onMouseUp={() => console.log("Mouse up")}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          if (table.current && e.altKey) {
+            table.current.addEventListener("mousemove", onMouseMoveHandler);
+          }
+        }}
+        onMouseLeave={() => {
+          table.current?.removeEventListener("mousemove", onMouseMoveHandler);
+        }}
+        onMouseUp={() => {
+          table.current?.removeEventListener("mousemove", onMouseMoveHandler);
+        }}
       >
         <tbody>
           {grid.map((r, i) => {

@@ -2,9 +2,9 @@ import React, { memo } from "react";
 import { Cell } from "../../types";
 
 function getColor(iter: number): string {
-  const red = 1 + (10 - 1) * (iter / (30 * 70));
-  const green = 14 + (132 - 14) * (iter / (30 * 70));
-  const blue = 27 + (255 - 27) * (iter / (30 * 70));
+  const red = 10 - (10 - 6) * (iter / (60 * 70));
+  const green = 132 - (132 - 51) * (iter / (60 * 70));
+  const blue = 255 - (255 - 97) * (iter / (60 * 70));
 
   return `rgb(${Math.min(10, red)}, ${Math.min(132, green)}, ${Math.min(
     255,

@@ -46,7 +46,7 @@
   td {
     width: 12px;
     height: 12px;
-    transition: background 1s;
+    transition: background 0.3s;
     border-spacing: 0;
 
     &.visited {
@@ -57,8 +57,15 @@
       animation: pulse 1s ease-in-out;
     }
 
+    &.wall {
+      position: relative;
+      transform: scale(1.2);
+      border-radius: 5px;
+      background-color: #0b131b;
+    }
+
     &:hover {
-      background: black;
+      opacity: 0.9;
     }
   }
 }
