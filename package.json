@@ -13,9 +13,11 @@
     "@types/react-dom": "^16.9.0",
     "@xstate/react": "^0.8.1",
     "classnames": "^2.2.6",
+    "framer-motion": "^1.11.0",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
     "react-scripts": "3.4.1",
     "typescript": "^3.9.0-beta",
     "xstate": "^4.9.1"

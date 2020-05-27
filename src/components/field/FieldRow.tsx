@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import { Cell } from "../../types";
+import StartCell from "./StartCell";
+import EndCell from "./EndCell";
 
 function getColor(iter: number): string {
   const red = 10 - (10 - 6) * (iter / (60 * 70));
@@ -23,24 +25,24 @@ type FieldRowProps = {
 };
 
 const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
-  console.log(row[0].iter);
   return (
     <tr>
       {row.map((c) => {
+        if (c.isStart) {
+          return <StartCell cell={c} />;
+        }
+        if (c.isEnd) {
+          return <EndCell cell={c} />;
+        }
         return (
           <td
-            data-color={"red"}
             className={`${
-              c.isShortestPath
-                ? "shortest"
-                : c.isWall
+              c.isWall
                 ? "wall"
-                : c.isStart
-                ? "start"
-                : c.isEnd
-                ? "end"
                 : c.visited
                 ? "visited"
+                : c.isShortestPath
+                ? "shortest"
                 : ""
             }`}
             style={{
