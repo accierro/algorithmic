@@ -1,0 +1,23 @@
+@import "./colors.scss";
+
+.select-menu {
+  position: absolute;
+  background: #0b131b;
+  width: 100%;
+  borderradius: 4px;
+  top: 130%;
+  left: 0;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  user-select: none;
+  p {
+    &.selected {
+      color: $blue;
+    }
+    &:hover {
+      color: hsl(210, 100%, 82%);
+      cursor: pointer;
+    }
+  }
+}

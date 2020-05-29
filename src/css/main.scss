@@ -1,0 +1,25 @@
+@import "./colors.scss";
+@import "./pathfinder-settings.scss";
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  background: $light1;
+}
+
+header {
+  font-size: 26px;
+  padding: 16px 0 16px 32px;
+  background: $blue5;
+  color: $blue;
+  box-shadow: $grey6 0 3px 3px;
+}
+
+main {
+  padding: 32px;
+  display: flex;
+  flex-direction: row;
+}

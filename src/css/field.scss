@@ -1,0 +1,78 @@
+@import "./colors.scss";
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.3);
+    background: #19395a;
+    border-radius: 100%;
+  }
+  50% {
+    background: $tealBlue;
+  }
+  100% {
+    border-radius: 0;
+    transform: scale(1);
+    background: $blue;
+  }
+}
+
+.field {
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 10px, rgba(0, 0, 0, 0.2) 1px 2px 3px;
+  background: $grey1;
+  td {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  tr:nth-child(1) {
+    td:nth-child(1) {
+      border-radius: 8px 0 0 0;
+    }
+    td:nth-last-child(1) {
+      border-radius: 0 8px 0 0;
+    }
+  }
+
+  tr:nth-last-child(1) {
+    td:nth-child(1) {
+      border-radius: 0 0 0 8px;
+    }
+    td:nth-last-child(1) {
+      border-radius: 0 0 8px 0;
+    }
+  }
+
+  td {
+    width: 12px;
+    height: 12px;
+    transition: background 0.3s;
+    border-spacing: 0;
+
+    &.visited {
+      background: $blue;
+      border: none;
+      width: 12px;
+      height: 12px;
+      animation: pulse 1s ease-in-out;
+    }
+
+    &.wall {
+      position: relative;
+      transform: scale(1.2);
+      border-radius: 5px;
+      background-color: #0b131b;
+    }
+
+    &.start,
+    &.end {
+      background: $yellow;
+      position: relative;
+      transform: scale(1.2);
+      border-radius: 5px;
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
