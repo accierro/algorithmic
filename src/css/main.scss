@@ -1,5 +1,5 @@
 @import "./colors.scss";
-
+@import "./pathfinder-settings.scss";
 * {
   font-family: "Montserrat", sans-serif;
 }
@@ -15,6 +15,11 @@ header {
   padding: 16px 0 16px 32px;
   background: $blue5;
   color: $blue;
-  margin-bottom: 36px;
   box-shadow: $grey6 0 3px 3px;
+}
+
+main {
+  padding: 32px;
+  display: flex;
+  flex-direction: row;
 }

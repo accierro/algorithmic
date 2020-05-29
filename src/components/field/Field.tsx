@@ -111,13 +111,15 @@ const Field: React.FC<{}> = () => {
       if (e.altKey && table.current) {
         const y = Math.floor((e.pageX - table.current.offsetLeft) / 16);
         const x = Math.floor((e.pageY - table.current.offsetTop) / 16);
-        const cell = grid[x][y];
-        if (
-          cell &&
-          !(cell.visited && cell.isWall && cell.isStart && cell.isEnd)
-        ) {
-          cell.isWall = true;
-          setChangeDiff([x]);
+        if (y >= 0 && x >= 0 && y <= COLUMNS && x <= ROWS) {
+          const cell = grid[x][y];
+          if (
+            cell &&
+            !(cell.visited && cell.isWall && cell.isStart && cell.isEnd)
+          ) {
+            cell.isWall = true;
+            setChangeDiff([x]);
+          }
         }
       }
     },
