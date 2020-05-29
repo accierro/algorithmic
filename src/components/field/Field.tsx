@@ -5,9 +5,7 @@ import React, {
   useCallback,
   useContext,
 } from "react";
-import { useMachine } from "@xstate/react";
 import "../../css/field.scss";
-import FieldStateMachine from "../../machine/FieldStateMachine";
 import _ from "lodash";
 import { Cell, IAlgorithm } from "../../types";
 import FieldRow from "./FieldRow";
