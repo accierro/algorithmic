@@ -36,7 +36,7 @@ const ROWS = 50;
 const COLUMNS = 70;
 
 const Field: React.FC<{}> = () => {
-  const { algorithm, setWalls, setFieldCallbacks } = useContext(
+  const { algorithm, speed, setWalls, setFieldCallbacks } = useContext(
     GridSettingsContext
   );
   const [changeDiff, setChangeDiff] = useState<Set<number>>(new Set());
@@ -118,7 +118,7 @@ const Field: React.FC<{}> = () => {
         animate();
       }
       const endTime = Date.now();
-      requestRef.current = endTime + (30 - (endTime - startTime));
+      requestRef.current = endTime + (speed.value - (endTime - startTime));
     }
   });
 

@@ -51,17 +51,17 @@ export const ALGORITHMS: AlgorithmStore = {
 
 export const SPEED = [
   {
-    value: 100,
+    value: 110,
     label: "Slow",
     id: SpeedEnum.SLOW,
   },
   {
-    value: 50,
+    value: 60,
     label: "Medium",
     id: SpeedEnum.MEDIUM,
   },
   {
-    value: 20,
+    value: 30,
     label: "Fast",
     id: SpeedEnum.FAST,
   },
