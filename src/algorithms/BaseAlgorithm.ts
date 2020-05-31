@@ -9,6 +9,9 @@ class BaseAlgorithm {
   protected rows: number;
   protected columns: number;
   protected iter: number;
+
+  protected finished: boolean;
+
   constructor(options: AlgorithmOptions) {
     this.grid = options.grid;
     this.startCell = options.startCell;
@@ -18,6 +21,8 @@ class BaseAlgorithm {
     this.columns = options.columns;
 
     this.iter = 0;
+
+    this.finished = false;
   }
 
   getNeighboors(grid: Cell[][], cell: Cell, includeVisited = false): Cell[] {
@@ -57,6 +62,23 @@ class BaseAlgorithm {
     }
 
     return neighboors;
+  }
+
+  deleteWalls(): number[] {
+    const diff = [];
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let j = 0; j < this.grid[i].length; j++) {
+        if (this.grid[i][j].isWall) {
+          this.grid[i][j].isWall = false;
+          diff.push(i);
+        }
+      }
+    }
+    return diff;
+  }
+
+  isFinished(): boolean {
+    return this.finished;
   }
 }
 
