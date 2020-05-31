@@ -26,7 +26,7 @@ class AStarAlgorithm extends BaseAlgorithm {
 
   tick() {
     let found = false;
-    const changedRows = [];
+    const changedRows: Set<number> = new Set();
 
     if (!this.queue.isEmpty()) {
       const node = this.queue.dequeue() as Cell;
@@ -57,9 +57,12 @@ class AStarAlgorithm extends BaseAlgorithm {
 
       if (node === this.targetCell) {
         found = true;
+        this.finished = true;
       }
       node.visited = true;
-      changedRows.push(x);
+      changedRows.add(x);
+    } else {
+      this.finished = true;
     }
 
     if (found) {
@@ -69,7 +72,7 @@ class AStarAlgorithm extends BaseAlgorithm {
       while (current !== this.startCell && i < 100) {
         current = this.previousCell.get(current) as Cell;
         current.isShortestPath = true;
-        changedRows.push(current.x);
+        changedRows.add(current.x);
         i++;
       }
     }

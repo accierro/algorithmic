@@ -9,6 +9,9 @@ class BaseAlgorithm {
   protected rows: number;
   protected columns: number;
   protected iter: number;
+
+  protected finished: boolean;
+
   constructor(options: AlgorithmOptions) {
     this.grid = options.grid;
     this.startCell = options.startCell;
@@ -18,6 +21,8 @@ class BaseAlgorithm {
     this.columns = options.columns;
 
     this.iter = 0;
+
+    this.finished = false;
   }
 
   getNeighboors(grid: Cell[][], cell: Cell, includeVisited = false): Cell[] {
@@ -70,6 +75,10 @@ class BaseAlgorithm {
       }
     }
     return diff;
+  }
+
+  isFinished(): boolean {
+    return this.finished;
   }
 }
 

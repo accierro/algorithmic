@@ -10,21 +10,22 @@ class BreadthFirstSearch extends BaseAlgorithm {
   }
 
   tick() {
-    let found = false;
-    const changedRows: number[] = [];
+    const changedRows: Set<number> = new Set();
     if (this.queue.length !== 0) {
       const node = this.queue.shift() as Cell;
       this.getNeighboors(this.grid, node).forEach((n) => {
         if (n === this.targetCell) {
-          found = true;
+          this.finished = true;
         } else if (!n.visited) {
-          changedRows.push(n.x);
+          changedRows.add(n.x);
           n.visited = true;
           this.queue.push(n);
         }
       });
+    } else {
+      this.finished = true;
     }
-    return { resume: !found && this.queue.length !== 0, changedRows };
+    return { changedRows };
   }
 }
 

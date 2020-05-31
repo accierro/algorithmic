@@ -39,7 +39,7 @@ const Field: React.FC<{}> = () => {
   const { algorithm, setWalls, setFieldCallbacks } = useContext(
     GridSettingsContext
   );
-  const [changeDiff, setChangeDiff] = useState<number[]>([]);
+  const [changeDiff, setChangeDiff] = useState<Set<number>>(new Set());
   let grid = useRef<Cell[][]>(getGrid(ROWS, COLUMNS)).current;
   const ref = useRef<IAlgorithm | null>(null);
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
@@ -51,10 +51,10 @@ const Field: React.FC<{}> = () => {
       return {
         ...prev,
         generateRandomWalls: () => {
-          const diff = [];
+          const diff: Set<number> = new Set();
           let counter = 0;
           for (let i = 0; i < grid.length; i++) {
-            diff.push(i);
+            diff.add(i);
             for (let j = 0; j < grid[i].length; j++) {
               const cell = grid[i][j];
               if (!cell.visited && !cell.isEnd && !cell.isStart) {
@@ -72,12 +72,12 @@ const Field: React.FC<{}> = () => {
           setWalls(counter);
         },
         resetWalls: () => {
-          const diff = [];
+          const diff: Set<number> = new Set();
           for (let i = 0; i < grid.length; i++) {
             for (let j = 0; j < grid[i].length; j++) {
               if (grid[i][j].isWall) {
                 grid[i][j].isWall = false;
-                diff.push(i);
+                diff.add(i);
               }
             }
           }
@@ -97,28 +97,30 @@ const Field: React.FC<{}> = () => {
           rows: ROWS,
           columns: COLUMNS,
         });
-        setChangeDiff([]);
+        setChangeDiff(new Set());
       }
     }
   }, [start, end]);
 
   const animate = () => {
-    const { resume, changedRows } = (ref.current as IAlgorithm).tick();
+    const { changedRows } = (ref.current as IAlgorithm).tick();
     setChangeDiff(changedRows);
-    if (resume) {
-      requestRef.current = requestAnimationFrame(animate);
-    }
   };
 
   useEffect(() => {
-    if (ref.current) {
-      requestRef.current = requestAnimationFrame(animate);
+    if (start && end && !ref.current?.isFinished()) {
+      const startTime = Date.now();
+      if (requestRef.current && startTime < requestRef.current) {
+        setTimeout(() => {
+          animate();
+        }, requestRef.current - startTime);
+      } else {
+        animate();
+      }
+      const endTime = Date.now();
+      requestRef.current = endTime + (30 - (endTime - startTime));
     }
-    return () =>
-      requestRef.current !== null
-        ? cancelAnimationFrame(requestRef.current)
-        : undefined;
-  }, [ref.current]);
+  });
 
   const clickCallback = useCallback(
     (
@@ -129,16 +131,16 @@ const Field: React.FC<{}> = () => {
       if (event.metaKey || event.ctrlKey) {
         grid[r][c].isWall = true;
         grid[r][c].visited = true;
-        setChangeDiff([r]);
+        setChangeDiff(new Set([r]));
       } else {
         if (start === null) {
           setStart({ x: r, y: c });
-          setChangeDiff([r]);
+          setChangeDiff(new Set([r]));
           grid[r][c].isStart = true;
         }
         if (end === null && start !== null) {
           setEnd({ x: r, y: c });
-          setChangeDiff([r]);
+          setChangeDiff(new Set([r]));
           grid[r][c].isEnd = true;
         }
       }
@@ -160,7 +162,7 @@ const Field: React.FC<{}> = () => {
             !(cell.visited && cell.isStart && cell.isEnd)
           ) {
             cell.isWall = true;
-            setChangeDiff([x]);
+            setChangeDiff(new Set([x]));
             setWalls((prev) => prev + 1);
           }
         }
@@ -190,7 +192,7 @@ const Field: React.FC<{}> = () => {
       >
         <tbody>
           {grid.map((r, i) => {
-            const shouldRender = changeDiff.includes(i);
+            const shouldRender = changeDiff.has(i);
             return (
               <FieldRow
                 key={i}

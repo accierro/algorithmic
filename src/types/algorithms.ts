@@ -27,11 +27,11 @@ export type AlgorithmStore = {
 };
 
 export type TickResults = {
-  changedRows: number[];
-  resume: boolean;
+  changedRows: Set<number>;
 };
 
 export interface IAlgorithm {
   tick(): TickResults;
   deleteWalls(): number[];
+  isFinished(): boolean;
 }

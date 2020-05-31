@@ -20,6 +20,7 @@
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 10px, rgba(0, 0, 0, 0.2) 1px 2px 3px;
   background: $grey1;
+  flex-shrink: 0;
   td {
     border: 1px solid rgba(0, 0, 0, 0.05);
   }
@@ -43,16 +44,15 @@
   }
 
   td {
-    width: 12px;
-    height: 12px;
+    padding: 0;
+    width: 14px;
+    height: 14px;
     transition: background 0.3s;
     border-spacing: 0;
 
     &.visited {
       background: $blue;
-      border: none;
-      width: 12px;
-      height: 12px;
+      border: 1px solid transparent;
       animation: pulse 1s ease-in-out;
     }
 
@@ -61,6 +61,7 @@
       transform: scale(1.2);
       border-radius: 5px;
       background-color: #0b131b;
+      transition: none;
     }
 
     &.start,
