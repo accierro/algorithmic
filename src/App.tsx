@@ -7,14 +7,25 @@ import GridSettingsContext, {
 import { Algorithm } from "./types";
 
 function App() {
-  const [gridSettings, setGridSettings] = useState<Algorithm>(
+  const [algorithm, setAlgorithm] = useState<Algorithm>(
     defaultContext.algorithm
+  );
+  const [walls, setWalls] = useState<number>(defaultContext.walls);
+  const [fieldCallbacks, setFieldCallbacks] = useState(
+    defaultContext.fieldCallbacks
   );
 
   return (
     <div className="App">
       <GridSettingsContext.Provider
-        value={{ algorithm: gridSettings, setAlgorithm: setGridSettings }}
+        value={{
+          algorithm,
+          fieldCallbacks,
+          walls,
+          setWalls,
+          setAlgorithm,
+          setFieldCallbacks,
+        }}
       >
         <MainView />
       </GridSettingsContext.Provider>

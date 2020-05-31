@@ -9,6 +9,13 @@ export type AlgorithmOptions = {
   columns: number;
 };
 
+declare function resetWalls(): void;
+
+export interface FieldCallbacks {
+  resetWalls: () => void;
+  generateRandomWalls: () => void;
+}
+
 export type Algorithm = {
   name: string;
   id: number;
@@ -26,4 +33,5 @@ export type TickResults = {
 
 export interface IAlgorithm {
   tick(): TickResults;
+  deleteWalls(): number[];
 }

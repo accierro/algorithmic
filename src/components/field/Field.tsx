@@ -36,14 +36,57 @@ const ROWS = 50;
 const COLUMNS = 70;
 
 const Field: React.FC<{}> = () => {
-  const { algorithm } = useContext(GridSettingsContext);
+  const { algorithm, setWalls, setFieldCallbacks } = useContext(
+    GridSettingsContext
+  );
   const [changeDiff, setChangeDiff] = useState<number[]>([]);
   let grid = useRef<Cell[][]>(getGrid(ROWS, COLUMNS)).current;
   const ref = useRef<IAlgorithm | null>(null);
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [end, setEnd] = useState<{ x: number; y: number } | null>(null);
-  // const [state, send] = useMachine(FieldStateMachine);
   const requestRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    setFieldCallbacks((prev) => {
+      return {
+        ...prev,
+        generateRandomWalls: () => {
+          const diff = [];
+          let counter = 0;
+          for (let i = 0; i < grid.length; i++) {
+            diff.push(i);
+            for (let j = 0; j < grid[i].length; j++) {
+              const cell = grid[i][j];
+              if (!cell.visited && !cell.isEnd && !cell.isStart) {
+                const ran = Math.random();
+                if (ran < 0.15) {
+                  cell.isWall = true;
+                  counter++;
+                } else {
+                  cell.isWall = false;
+                }
+              }
+            }
+          }
+          setChangeDiff(diff);
+          setWalls(counter);
+        },
+        resetWalls: () => {
+          const diff = [];
+          for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+              if (grid[i][j].isWall) {
+                grid[i][j].isWall = false;
+                diff.push(i);
+              }
+            }
+          }
+          setChangeDiff(diff);
+          setWalls(0);
+        },
+      };
+    });
+  }, [grid]);
   useEffect(() => {
     if (start && end) {
       if (ref.current === null) {
@@ -113,10 +156,12 @@ const Field: React.FC<{}> = () => {
           const cell = grid[x][y];
           if (
             cell &&
-            !(cell.visited && cell.isWall && cell.isStart && cell.isEnd)
+            !cell.isWall &&
+            !(cell.visited && cell.isStart && cell.isEnd)
           ) {
             cell.isWall = true;
             setChangeDiff([x]);
+            setWalls((prev) => prev + 1);
           }
         }
       }

@@ -58,6 +58,19 @@ class BaseAlgorithm {
 
     return neighboors;
   }
+
+  deleteWalls(): number[] {
+    const diff = [];
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let j = 0; j < this.grid[i].length; j++) {
+        if (this.grid[i][j].isWall) {
+          this.grid[i][j].isWall = false;
+          diff.push(i);
+        }
+      }
+    }
+    return diff;
+  }
 }
 
 export default BaseAlgorithm;
