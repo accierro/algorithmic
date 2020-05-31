@@ -5,7 +5,7 @@
   border: none;
   appearance: none;
   font-size: 14px;
-  padding: 4px 8px;
+  padding: 6px 8px;
   border-radius: 4px;
   color: $blue;
   font-weight: 500;
@@ -33,5 +33,47 @@
 
   &.danger {
     color: $destructive;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.button-switch {
+  display: flex;
+  flex-direction: row;
+  background: $blue5;
+  width: fit-content;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.button-switch-btn {
+  padding: 6px 10px;
+  appearance: none;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  border-right: 1px solid grey;
+
+  &:nth-last-child(1) {
+    border: none;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.button-switch-btn__selected {
+  background: $blue;
+  &:hover {
+    background: $blue;
   }
 }

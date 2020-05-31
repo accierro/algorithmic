@@ -4,7 +4,7 @@ import MainView from "./views/MainView";
 import GridSettingsContext, {
   defaultContext,
 } from "./context/GridSettingsContext";
-import { Algorithm } from "./types";
+import { Algorithm, SpeedOption } from "./types";
 
 function App() {
   const [algorithm, setAlgorithm] = useState<Algorithm>(
@@ -14,6 +14,7 @@ function App() {
   const [fieldCallbacks, setFieldCallbacks] = useState(
     defaultContext.fieldCallbacks
   );
+  const [speed, setSpeed] = useState<SpeedOption>(defaultContext.speed);
 
   return (
     <div className="App">
@@ -22,9 +23,11 @@ function App() {
           algorithm,
           fieldCallbacks,
           walls,
+          speed,
           setWalls,
           setAlgorithm,
           setFieldCallbacks,
+          setSpeed,
         }}
       >
         <MainView />

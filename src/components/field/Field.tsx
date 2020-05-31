@@ -36,7 +36,7 @@ const ROWS = 50;
 const COLUMNS = 70;
 
 const Field: React.FC<{}> = () => {
-  const { algorithm, setWalls, setFieldCallbacks } = useContext(
+  const { algorithm, speed, setWalls, setFieldCallbacks } = useContext(
     GridSettingsContext
   );
   const [changeDiff, setChangeDiff] = useState<Set<number>>(new Set());
@@ -118,7 +118,7 @@ const Field: React.FC<{}> = () => {
         animate();
       }
       const endTime = Date.now();
-      requestRef.current = endTime + (30 - (endTime - startTime));
+      requestRef.current = endTime + (speed.value - (endTime - startTime));
     }
   });
 
@@ -133,12 +133,12 @@ const Field: React.FC<{}> = () => {
         grid[r][c].visited = true;
         setChangeDiff(new Set([r]));
       } else {
-        if (start === null) {
+        if (start === null && !grid[r][c].isWall) {
           setStart({ x: r, y: c });
           setChangeDiff(new Set([r]));
           grid[r][c].isStart = true;
         }
-        if (end === null && start !== null) {
+        if (end === null && start !== null && !grid[r][c].isWall) {
           setEnd({ x: r, y: c });
           setChangeDiff(new Set([r]));
           grid[r][c].isEnd = true;

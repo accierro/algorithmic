@@ -35,3 +35,9 @@ export interface IAlgorithm {
   deleteWalls(): number[];
   isFinished(): boolean;
 }
+
+export type SpeedOption = {
+  label: string;
+  id: number;
+  value: number;
+};
