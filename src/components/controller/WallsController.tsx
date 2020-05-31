@@ -5,7 +5,7 @@ import GridSettingsContext from "../../context/GridSettingsContext";
 const WallsController: React.FC = () => {
   const { walls, fieldCallbacks } = useContext(GridSettingsContext);
   return (
-    <div style={{ marginTop: "16px" }}>
+    <div style={{ margin: "20px 0" }}>
       <div
         style={{
           display: "flex",
@@ -37,6 +37,7 @@ const WallsController: React.FC = () => {
           Random
         </button>
         <button
+          disabled={walls === 0}
           className="btn primary danger"
           onClick={() => fieldCallbacks.resetWalls()}
         >

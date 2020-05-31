@@ -5,3 +5,9 @@ export enum AlgorithmEnum {
   GREEDY_ALGORITHM,
   A_STAR_ALGORITHM,
 }
+
+export enum SpeedEnum {
+  SLOW = 1,
+  MEDIUM,
+  FAST,
+}

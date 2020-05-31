@@ -133,12 +133,12 @@ const Field: React.FC<{}> = () => {
         grid[r][c].visited = true;
         setChangeDiff(new Set([r]));
       } else {
-        if (start === null) {
+        if (start === null && !grid[r][c].isWall) {
           setStart({ x: r, y: c });
           setChangeDiff(new Set([r]));
           grid[r][c].isStart = true;
         }
-        if (end === null && start !== null) {
+        if (end === null && start !== null && !grid[r][c].isWall) {
           setEnd({ x: r, y: c });
           setChangeDiff(new Set([r]));
           grid[r][c].isEnd = true;

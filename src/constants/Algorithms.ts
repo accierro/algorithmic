@@ -1,4 +1,10 @@
-import { AlgorithmEnum, Algorithm, AlgorithmStore, Cell } from "../types";
+import {
+  AlgorithmEnum,
+  Algorithm,
+  AlgorithmStore,
+  Cell,
+  SpeedEnum,
+} from "../types";
 import BreadthFirstSearch from "../algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "../algorithms/DepthFirstSearch";
 import Djikstra from "../algorithms/Djikstra";
@@ -42,3 +48,21 @@ export const ALGORITHMS: AlgorithmStore = {
     },
   },
 };
+
+export const SPEED = [
+  {
+    value: 100,
+    label: "Slow",
+    id: SpeedEnum.SLOW,
+  },
+  {
+    value: 50,
+    label: "Medium",
+    id: SpeedEnum.MEDIUM,
+  },
+  {
+    value: 20,
+    label: "Fast",
+    id: SpeedEnum.FAST,
+  },
+];
