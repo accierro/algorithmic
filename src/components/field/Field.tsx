@@ -121,7 +121,7 @@ const Field: React.FC<{}> = () => {
 
   //TODO make requestRef to be a state.
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && status !== AlgorithmStatus.PAUSED) {
       if (start && end && !ref.current?.isFinished()) {
         const startTime = Date.now();
         if (requestRef.current && startTime < requestRef.current) {

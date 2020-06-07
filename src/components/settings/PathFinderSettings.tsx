@@ -17,7 +17,6 @@ const PathFinderSettings: React.FC = () => {
     status,
     setStatus,
   } = useContext(GridSettingsContext);
-  console.log(status);
   return (
     <div className="path-finder-settings">
       <div>
