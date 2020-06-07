@@ -26,6 +26,7 @@ function ButtonSwitch<T extends Option>({
         });
         return (
           <button
+            key={o.label}
             className={classNames}
             onClick={() => {
               if (o !== value) {

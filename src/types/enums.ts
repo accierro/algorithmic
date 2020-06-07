@@ -11,3 +11,10 @@ export enum SpeedEnum {
   MEDIUM,
   FAST,
 }
+
+export enum AlgorithmStatus {
+  PREPARATION = 0,
+  RUNNING,
+  PAUSED,
+  FINISHED,
+}

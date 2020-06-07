@@ -1,10 +1,17 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { ALGORITHMS, SPEED } from "../constants/Algorithms";
-import { Algorithm, FieldCallbacks, SpeedOption } from "../types";
+import {
+  Algorithm,
+  FieldCallbacks,
+  SpeedOption,
+  AlgorithmStatus,
+} from "../types";
 
 export const defaultContext = {
   algorithm: ALGORITHMS[1],
+  status: AlgorithmStatus.PREPARATION,
   fieldCallbacks: {
+    reset: () => {},
     resetWalls: () => {},
     generateRandomWalls: () => {},
   },
@@ -14,10 +21,12 @@ export const defaultContext = {
   setWalls: () => console.log("setWalls() NOT IMPLEMENTED"),
   setFieldCallbacks: () => console.log("setFieldCallbacks NOT IMPLEMENTED"),
   setSpeed: () => console.log("setSpeed NOT IMPLEMENTED"),
+  setStatus: () => console.log("setStatus NOT IMPLEMENTED"),
 };
 
 const GridSettingsContext = React.createContext<{
   algorithm: Algorithm;
+  status: AlgorithmStatus;
   walls: number;
   speed: SpeedOption;
   fieldCallbacks: FieldCallbacks;
@@ -25,6 +34,7 @@ const GridSettingsContext = React.createContext<{
   setWalls: Dispatch<SetStateAction<number>>;
   setFieldCallbacks: Dispatch<SetStateAction<FieldCallbacks>>;
   setSpeed: Dispatch<SetStateAction<SpeedOption>>;
+  setStatus: Dispatch<SetStateAction<AlgorithmStatus>>;
 }>(defaultContext);
 
 export default GridSettingsContext;

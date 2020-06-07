@@ -11,12 +11,14 @@ interface OptionValue {
 type DropwDownMenuProps<T extends OptionValue> = {
   options: T[];
   value: T;
+  disabled: boolean;
   onChange: (t: T) => void;
 };
 
 function DropDownMenu<T extends OptionValue>({
   options,
   value,
+  disabled,
   onChange,
 }: DropwDownMenuProps<T> & { children?: React.ReactNode }): React.ReactElement {
   const [dropDownIsVisible, setDropDownIsVisible] = useState(false);
@@ -33,8 +35,12 @@ function DropDownMenu<T extends OptionValue>({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        userSelect: "none",
+        cursor: disabled ? "not-allowed" : "pointer",
+        opacity: disabled ? 0.4 : 1,
       }}
       onClick={() => {
+        if (disabled) return;
         setDropDownIsVisible(true);
       }}
     >

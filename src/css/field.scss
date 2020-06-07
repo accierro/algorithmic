@@ -47,13 +47,12 @@
     padding: 0;
     width: 14px;
     height: 14px;
-    transition: background 0.3s;
     border-spacing: 0;
 
     &.visited {
       background: $blue;
       border: 1px solid transparent;
-      animation: pulse 1s ease-in-out;
+      animation: pulse 0.8s ease-in-out;
     }
 
     &.wall {
@@ -70,10 +69,6 @@
       position: relative;
       transform: scale(1.2);
       border-radius: 5px;
-    }
-
-    &:hover {
-      opacity: 0.9;
     }
   }
 }
