@@ -12,6 +12,7 @@ export type AlgorithmOptions = {
 declare function resetWalls(): void;
 
 export interface FieldCallbacks {
+  reset: () => void;
   resetWalls: () => void;
   generateRandomWalls: () => void;
 }

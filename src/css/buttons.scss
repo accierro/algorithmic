@@ -39,6 +39,15 @@
     opacity: 0.3;
     cursor: not-allowed;
   }
+
+  &.md {
+    font-size: 16px;
+    padding: 8px 10px;
+  }
+  &.lg {
+    font-size: 18px;
+    padding: 10px 12px;
+  }
 }
 
 .button-switch {

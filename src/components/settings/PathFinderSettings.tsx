@@ -3,14 +3,21 @@ import GridSettingsContext from "../../context/GridSettingsContext";
 import DropDownMenu from "../input/DropDownMenu";
 import { ALGORITHMS, SPEED } from "../../constants/Algorithms";
 import WallsController from "../controller/WallsController";
-import { Algorithm } from "../../types";
+import { Algorithm, AlgorithmStatus } from "../../types";
 import ButtonSwitch from "../input/ButtonSwitch";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const PathFinderSettings: React.FC = () => {
-  const { algorithm, setAlgorithm, speed, setSpeed } = useContext(
-    GridSettingsContext
-  );
+  const {
+    algorithm,
+    setAlgorithm,
+    speed,
+    setSpeed,
+    fieldCallbacks,
+    status,
+    setStatus,
+  } = useContext(GridSettingsContext);
+  console.log(status);
   return (
     <div className="path-finder-settings">
       <div>
@@ -25,6 +32,7 @@ const PathFinderSettings: React.FC = () => {
           Algorithm
         </h2>
         <DropDownMenu
+          disabled={status !== AlgorithmStatus.PREPARATION}
           value={algorithm}
           options={Object.values(ALGORITHMS)}
           onChange={(algo: Algorithm) => setAlgorithm(algo)}
@@ -56,6 +64,37 @@ const PathFinderSettings: React.FC = () => {
             setSpeed(newSpeed);
           }}
         />
+        <div
+          style={{
+            marginTop: "32px",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <button
+            className="btn primary danger md"
+            onClick={() => fieldCallbacks.reset()}
+          >
+            Reset
+          </button>
+          <button
+            style={{ marginLeft: "16px" }}
+            className="btn primary md"
+            disabled={
+              status === AlgorithmStatus.FINISHED ||
+              status === AlgorithmStatus.PREPARATION
+            }
+            onClick={() => {
+              if (status === AlgorithmStatus.RUNNING) {
+                setStatus(AlgorithmStatus.PAUSED);
+              } else {
+                setStatus(AlgorithmStatus.RUNNING);
+              }
+            }}
+          >
+            {status === AlgorithmStatus.PAUSED ? "Continue" : "Pause"}
+          </button>
+        </div>
       </div>
     </div>
   );

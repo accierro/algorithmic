@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import "../../css/field.scss";
 import _ from "lodash";
-import { Cell, IAlgorithm } from "../../types";
+import { Cell, IAlgorithm, AlgorithmStatus } from "../../types";
 import FieldRow from "./FieldRow";
 import GridSettingsContext from "../../context/GridSettingsContext";
 
@@ -36,27 +36,38 @@ const ROWS = 50;
 const COLUMNS = 70;
 
 const Field: React.FC<{}> = () => {
-  const { algorithm, speed, setWalls, setFieldCallbacks } = useContext(
-    GridSettingsContext
-  );
+  const {
+    status,
+    algorithm,
+    speed,
+    setWalls,
+    setFieldCallbacks,
+    setStatus,
+  } = useContext(GridSettingsContext);
   const [changeDiff, setChangeDiff] = useState<Set<number>>(new Set());
-  let grid = useRef<Cell[][]>(getGrid(ROWS, COLUMNS)).current;
+  let grid = useRef<Cell[][]>(getGrid(ROWS, COLUMNS));
   const ref = useRef<IAlgorithm | null>(null);
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [end, setEnd] = useState<{ x: number; y: number } | null>(null);
   const requestRef = useRef<number | null>(null);
-
   useEffect(() => {
     setFieldCallbacks((prev) => {
       return {
         ...prev,
+        reset: () => {
+          grid.current = getGrid(ROWS, COLUMNS);
+          setStart(null);
+          setEnd(null);
+          setChangeDiff(new Set(grid.current.map((g, i) => i)));
+          ref.current = null;
+        },
         generateRandomWalls: () => {
           const diff: Set<number> = new Set();
           let counter = 0;
-          for (let i = 0; i < grid.length; i++) {
+          for (let i = 0; i < grid.current.length; i++) {
             diff.add(i);
-            for (let j = 0; j < grid[i].length; j++) {
-              const cell = grid[i][j];
+            for (let j = 0; j < grid.current[i].length; j++) {
+              const cell = grid.current[i][j];
               if (!cell.visited && !cell.isEnd && !cell.isStart) {
                 const ran = Math.random();
                 if (ran < 0.15) {
@@ -73,10 +84,10 @@ const Field: React.FC<{}> = () => {
         },
         resetWalls: () => {
           const diff: Set<number> = new Set();
-          for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-              if (grid[i][j].isWall) {
-                grid[i][j].isWall = false;
+          for (let i = 0; i < grid.current.length; i++) {
+            for (let j = 0; j < grid.current[i].length; j++) {
+              if (grid.current[i][j].isWall) {
+                grid.current[i][j].isWall = false;
                 diff.add(i);
               }
             }
@@ -86,18 +97,19 @@ const Field: React.FC<{}> = () => {
         },
       };
     });
-  }, [grid]);
+  }, [grid.current]);
   useEffect(() => {
     if (start && end) {
       if (ref.current === null) {
         ref.current = algorithm.start({
-          grid,
-          startCell: grid[start.x][start.y],
-          targetCell: grid[end.x][end.y],
+          grid: grid.current,
+          startCell: grid.current[start.x][start.y],
+          targetCell: grid.current[end.x][end.y],
           rows: ROWS,
           columns: COLUMNS,
         });
         setChangeDiff(new Set());
+        setStatus(AlgorithmStatus.RUNNING);
       }
     }
   }, [start, end]);
@@ -107,18 +119,23 @@ const Field: React.FC<{}> = () => {
     setChangeDiff(changedRows);
   };
 
+  //TODO make requestRef to be a state.
   useEffect(() => {
-    if (start && end && !ref.current?.isFinished()) {
-      const startTime = Date.now();
-      if (requestRef.current && startTime < requestRef.current) {
-        setTimeout(() => {
+    if (ref.current) {
+      if (start && end && !ref.current?.isFinished()) {
+        const startTime = Date.now();
+        if (requestRef.current && startTime < requestRef.current) {
+          setTimeout(() => {
+            if (ref.current) {
+              animate();
+            }
+          }, requestRef.current - startTime);
+        } else {
           animate();
-        }, requestRef.current - startTime);
-      } else {
-        animate();
+        }
+        const endTime = Date.now();
+        requestRef.current = endTime + (speed.value - (endTime - startTime));
       }
-      const endTime = Date.now();
-      requestRef.current = endTime + (speed.value - (endTime - startTime));
     }
   });
 
@@ -129,19 +146,19 @@ const Field: React.FC<{}> = () => {
       c: number
     ) => {
       if (event.metaKey || event.ctrlKey) {
-        grid[r][c].isWall = true;
-        grid[r][c].visited = true;
+        grid.current[r][c].isWall = true;
+        grid.current[r][c].visited = true;
         setChangeDiff(new Set([r]));
       } else {
-        if (start === null && !grid[r][c].isWall) {
+        if (start === null && !grid.current[r][c].isWall) {
           setStart({ x: r, y: c });
           setChangeDiff(new Set([r]));
-          grid[r][c].isStart = true;
+          grid.current[r][c].isStart = true;
         }
-        if (end === null && start !== null && !grid[r][c].isWall) {
+        if (end === null && start !== null && !grid.current[r][c].isWall) {
           setEnd({ x: r, y: c });
           setChangeDiff(new Set([r]));
-          grid[r][c].isEnd = true;
+          grid.current[r][c].isEnd = true;
         }
       }
     },
@@ -155,7 +172,7 @@ const Field: React.FC<{}> = () => {
         const y = Math.floor((e.pageX - table.current.offsetLeft) / 16);
         const x = Math.floor((e.pageY - table.current.offsetTop) / 16);
         if (y >= 0 && x >= 0 && y <= COLUMNS && x <= ROWS) {
-          const cell = grid[x][y];
+          const cell = grid.current[x][y];
           if (
             cell &&
             !cell.isWall &&
@@ -168,7 +185,7 @@ const Field: React.FC<{}> = () => {
         }
       }
     },
-    [grid]
+    [grid.current]
   );
 
   return (
@@ -191,7 +208,7 @@ const Field: React.FC<{}> = () => {
         }}
       >
         <tbody>
-          {grid.map((r, i) => {
+          {grid.current.map((r, i) => {
             const shouldRender = changeDiff.has(i);
             return (
               <FieldRow
