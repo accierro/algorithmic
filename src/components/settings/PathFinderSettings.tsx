@@ -70,15 +70,20 @@ const PathFinderSettings: React.FC = () => {
             flexDirection: "row",
           }}
         >
-          <button
-            className="btn primary danger md"
-            onClick={() => {
-              fieldCallbacks.reset();
-              setStatus(AlgorithmStatus.PREPARATION);
-            }}
-          >
-            Reset
-          </button>
+          <div style={{ position: "relative" }}>
+            {status === AlgorithmStatus.FINISHED && (
+              <div className="pinger"></div>
+            )}
+            <button
+              className="btn primary danger md"
+              onClick={() => {
+                fieldCallbacks.reset();
+                setStatus(AlgorithmStatus.PREPARATION);
+              }}
+            >
+              Reset
+            </button>
+          </div>
           <button
             style={{ marginLeft: "16px" }}
             className="btn primary md"

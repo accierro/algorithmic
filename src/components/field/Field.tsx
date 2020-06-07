@@ -50,6 +50,7 @@ const Field: React.FC<{}> = () => {
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [end, setEnd] = useState<{ x: number; y: number } | null>(null);
   const requestRef = useRef<number | null>(null);
+  const timeoutRef = useRef<number | null>(null);
   useEffect(() => {
     setFieldCallbacks((prev) => {
       return {
@@ -60,6 +61,7 @@ const Field: React.FC<{}> = () => {
           setEnd(null);
           setChangeDiff(new Set(grid.current.map((g, i) => i)));
           ref.current = null;
+          timeoutRef.current = null;
         },
         generateRandomWalls: () => {
           const diff: Set<number> = new Set();
@@ -114,27 +116,32 @@ const Field: React.FC<{}> = () => {
     }
   }, [start, end]);
 
-  const animate = () => {
+  const animate = (startTime: number) => {
     const { changedRows } = (ref.current as IAlgorithm).tick();
     setChangeDiff(changedRows);
+    const endTime = Date.now();
+    requestRef.current = endTime + (speed.value - (endTime - startTime));
   };
 
   //TODO make requestRef to be a state.
   useEffect(() => {
-    if (ref.current && status !== AlgorithmStatus.PAUSED) {
+    if (
+      ref.current &&
+      status !== AlgorithmStatus.PAUSED &&
+      timeoutRef.current === null
+    ) {
       if (start && end && !ref.current?.isFinished()) {
         const startTime = Date.now();
         if (requestRef.current && startTime < requestRef.current) {
-          setTimeout(() => {
+          timeoutRef.current = window.setTimeout(() => {
             if (ref.current) {
-              animate();
+              animate(startTime);
+              timeoutRef.current = null;
             }
           }, requestRef.current - startTime);
         } else {
-          animate();
+          animate(startTime);
         }
-        const endTime = Date.now();
-        requestRef.current = endTime + (speed.value - (endTime - startTime));
       }
       if (ref.current.isFinished()) {
         setStatus(AlgorithmStatus.FINISHED);
