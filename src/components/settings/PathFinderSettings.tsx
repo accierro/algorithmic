@@ -73,7 +73,10 @@ const PathFinderSettings: React.FC = () => {
         >
           <button
             className="btn primary danger md"
-            onClick={() => fieldCallbacks.reset()}
+            onClick={() => {
+              fieldCallbacks.reset();
+              setStatus(AlgorithmStatus.PREPARATION);
+            }}
           >
             Reset
           </button>

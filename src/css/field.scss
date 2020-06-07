@@ -52,7 +52,7 @@
     &.visited {
       background: $blue;
       border: 1px solid transparent;
-      animation: pulse 1s ease-in-out;
+      animation: pulse 0.8s ease-in-out;
     }
 
     &.wall {

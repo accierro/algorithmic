@@ -136,6 +136,9 @@ const Field: React.FC<{}> = () => {
         const endTime = Date.now();
         requestRef.current = endTime + (speed.value - (endTime - startTime));
       }
+      if (ref.current.isFinished()) {
+        setStatus(AlgorithmStatus.FINISHED);
+      }
     }
   });
 
