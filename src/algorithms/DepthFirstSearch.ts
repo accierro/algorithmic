@@ -11,25 +11,26 @@ class DepthFirstSearch extends BaseAlgorithm {
   }
 
   tick() {
-    let found = false;
-    const changedRows = [];
+    const changedRows: Set<number> = new Set();
 
     if (this.stack.length !== 0) {
       const node = this.stack.pop() as Cell;
       node.visited = true;
       const { x, y } = node;
-      changedRows.push(x);
+      changedRows.add(x);
 
       this.getNeighboors(this.grid, node).forEach((n) => {
         if (n === this.targetCell) {
-          found = true;
+          this.finished = true;
         } else if (!n.visited) {
           this.stack.push(n);
         }
       });
+    } else {
+      this.finished = true;
     }
 
-    return { resume: !found && this.stack.length > 0, changedRows };
+    return { changedRows };
   }
 }
 

@@ -7,6 +7,7 @@ export type Cell = {
   isWall: boolean;
   isShortestPath: boolean;
   iter: number;
+  marked: boolean;
 };
 
 export * from "./enums";

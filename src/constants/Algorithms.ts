@@ -1,4 +1,10 @@
-import { AlgorithmEnum, Algorithm, AlgorithmStore, Cell } from "../types";
+import {
+  AlgorithmEnum,
+  Algorithm,
+  AlgorithmStore,
+  Cell,
+  SpeedEnum,
+} from "../types";
 import BreadthFirstSearch from "../algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "../algorithms/DepthFirstSearch";
 import Djikstra from "../algorithms/Djikstra";
@@ -41,4 +47,29 @@ export const ALGORITHMS: AlgorithmStore = {
       return new AStarAlgorithm(options);
     },
   },
+};
+
+export const SPEED = [
+  {
+    value: 110,
+    label: "Slow",
+    id: SpeedEnum.SLOW,
+  },
+  {
+    value: 60,
+    label: "Medium",
+    id: SpeedEnum.MEDIUM,
+  },
+  {
+    value: 30,
+    label: "Fast",
+    id: SpeedEnum.FAST,
+  },
+];
+
+export const DIMENSIONS = {
+  minColumns: 26,
+  minRows: 37,
+  maxColumns: 85,
+  maxRows: 85,
 };
