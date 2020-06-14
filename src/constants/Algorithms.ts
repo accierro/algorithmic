@@ -66,3 +66,10 @@ export const SPEED = [
     id: SpeedEnum.FAST,
   },
 ];
+
+export const DIMENSIONS = {
+  minColumns: 26,
+  minRows: 37,
+  maxColumns: 85,
+  maxRows: 85,
+};

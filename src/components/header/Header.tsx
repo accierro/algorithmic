@@ -7,23 +7,7 @@ const Header: React.FC<{}> = () => {
   // const { algorithm, setAlgorithm } = useContext(GridSettingsContext);
   return (
     <header>
-      Algorithmic
-      {/* <select
-        onChange={(e) => {
-          setAlgorithm(ALGORITHMS[e.target.value]);
-        }}
-      >
-        {Object.keys(ALGORITHMS).map((key) => {
-          return (
-            <option
-              selected={algorithm === ALGORITHMS[key]}
-              value={ALGORITHMS[key].id}
-            >
-              {ALGORITHMS[key].name}
-            </option>
-          );
-        })}
-      </select> */}
+      <span>Algorithmic</span>
     </header>
   );
 };

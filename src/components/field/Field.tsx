@@ -25,6 +25,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
         isWall: false,
         isShortestPath: false,
         iter: 0,
+        marked: false,
       });
     }
     arr.push(row);
@@ -32,34 +33,34 @@ function getGrid(rows: number, columns: number): Cell[][] {
   return arr;
 }
 
-const ROWS = 50;
-const COLUMNS = 70;
-
 const Field: React.FC<{}> = () => {
   const {
     status,
     algorithm,
     speed,
+    dimensions,
     setWalls,
     setFieldCallbacks,
     setStatus,
   } = useContext(GridSettingsContext);
   const [changeDiff, setChangeDiff] = useState<Set<number>>(new Set());
-  let grid = useRef<Cell[][]>(getGrid(ROWS, COLUMNS));
+  let grid = useRef<Cell[][]>(getGrid(dimensions.rows, dimensions.columns));
   const ref = useRef<IAlgorithm | null>(null);
   const [start, setStart] = useState<{ x: number; y: number } | null>(null);
   const [end, setEnd] = useState<{ x: number; y: number } | null>(null);
   const requestRef = useRef<number | null>(null);
   const timeoutRef = useRef<number | null>(null);
+
   useEffect(() => {
     setFieldCallbacks((prev) => {
       return {
         ...prev,
         reset: () => {
-          grid.current = getGrid(ROWS, COLUMNS);
+          grid.current = getGrid(dimensions.rows, dimensions.columns);
           setStart(null);
           setEnd(null);
           setChangeDiff(new Set(grid.current.map((g, i) => i)));
+          setWalls(0);
           ref.current = null;
           timeoutRef.current = null;
         },
@@ -107,8 +108,8 @@ const Field: React.FC<{}> = () => {
           grid: grid.current,
           startCell: grid.current[start.x][start.y],
           targetCell: grid.current[end.x][end.y],
-          rows: ROWS,
-          columns: COLUMNS,
+          rows: dimensions.rows,
+          columns: dimensions.columns,
         });
         setChangeDiff(new Set());
         setStatus(AlgorithmStatus.RUNNING);
@@ -123,7 +124,6 @@ const Field: React.FC<{}> = () => {
     requestRef.current = endTime + (speed.value - (endTime - startTime));
   };
 
-  //TODO make requestRef to be a state.
   useEffect(() => {
     if (
       ref.current &&
@@ -155,21 +155,15 @@ const Field: React.FC<{}> = () => {
       r: number,
       c: number
     ) => {
-      if (event.metaKey || event.ctrlKey) {
-        grid.current[r][c].isWall = true;
-        grid.current[r][c].visited = true;
+      if (start === null && !grid.current[r][c].isWall) {
+        setStart({ x: r, y: c });
         setChangeDiff(new Set([r]));
-      } else {
-        if (start === null && !grid.current[r][c].isWall) {
-          setStart({ x: r, y: c });
-          setChangeDiff(new Set([r]));
-          grid.current[r][c].isStart = true;
-        }
-        if (end === null && start !== null && !grid.current[r][c].isWall) {
-          setEnd({ x: r, y: c });
-          setChangeDiff(new Set([r]));
-          grid.current[r][c].isEnd = true;
-        }
+        grid.current[r][c].isStart = true;
+      }
+      if (end === null && start !== null && !grid.current[r][c].isWall) {
+        setEnd({ x: r, y: c });
+        setChangeDiff(new Set([r]));
+        grid.current[r][c].isEnd = true;
       }
     },
     [start, end]
@@ -181,11 +175,17 @@ const Field: React.FC<{}> = () => {
       if (e.altKey && table.current) {
         const y = Math.floor((e.pageX - table.current.offsetLeft) / 16);
         const x = Math.floor((e.pageY - table.current.offsetTop) / 16);
-        if (y >= 0 && x >= 0 && y <= COLUMNS && x <= ROWS) {
+        if (
+          y >= 0 &&
+          x >= 0 &&
+          y <= dimensions.columns &&
+          x <= dimensions.rows
+        ) {
           const cell = grid.current[x][y];
           if (
             cell &&
             !cell.isWall &&
+            !cell.marked &&
             !(cell.visited && cell.isStart && cell.isEnd)
           ) {
             cell.isWall = true;
@@ -197,6 +197,15 @@ const Field: React.FC<{}> = () => {
     },
     [grid.current]
   );
+
+  useEffect(() => {
+    grid.current = getGrid(dimensions.rows, dimensions.columns);
+    setStart(null);
+    setEnd(null);
+    setChangeDiff(new Set(grid.current.map((g, i) => i)));
+    ref.current = null;
+    timeoutRef.current = null;
+  }, [dimensions.columns, dimensions.rows]);
 
   return (
     <>

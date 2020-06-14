@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { ALGORITHMS, SPEED } from "../constants/Algorithms";
+import { ALGORITHMS, SPEED, DIMENSIONS } from "../constants/Algorithms";
 import {
   Algorithm,
   FieldCallbacks,
   SpeedOption,
   AlgorithmStatus,
+  Dimensions,
 } from "../types";
 
 export const defaultContext = {
@@ -17,6 +18,7 @@ export const defaultContext = {
   },
   walls: 0,
   speed: SPEED[0],
+  dimensions: { columns: DIMENSIONS.minColumns, rows: DIMENSIONS.minRows },
   setAlgorithm: () => console.log("NOT IMPLEMENTED"),
   setWalls: () => console.log("setWalls() NOT IMPLEMENTED"),
   setFieldCallbacks: () => console.log("setFieldCallbacks NOT IMPLEMENTED"),
@@ -30,6 +32,7 @@ const GridSettingsContext = React.createContext<{
   walls: number;
   speed: SpeedOption;
   fieldCallbacks: FieldCallbacks;
+  dimensions: Dimensions;
   setAlgorithm: Dispatch<SetStateAction<Algorithm>>;
   setWalls: Dispatch<SetStateAction<number>>;
   setFieldCallbacks: Dispatch<SetStateAction<FieldCallbacks>>;
