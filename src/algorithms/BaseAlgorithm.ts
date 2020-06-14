@@ -33,6 +33,7 @@ class BaseAlgorithm {
       const check = grid[x - 1][y];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.marked = true;
         neighboors.push(check);
       }
     }
@@ -41,6 +42,7 @@ class BaseAlgorithm {
       const check = grid[x][y - 1];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.marked = true;
         neighboors.push(check);
       }
     }
@@ -49,6 +51,7 @@ class BaseAlgorithm {
       const check = grid[x][y + 1];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.marked = true;
         neighboors.push(check);
       }
     }
@@ -57,6 +60,7 @@ class BaseAlgorithm {
       const check = grid[x + 1][y];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.marked = true;
         neighboors.push(check);
       }
     }

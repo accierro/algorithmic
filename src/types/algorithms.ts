@@ -42,3 +42,8 @@ export type SpeedOption = {
   id: number;
   value: number;
 };
+
+export type Dimensions = {
+  columns: number;
+  rows: number;
+};
