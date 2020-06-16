@@ -1,0 +1,40 @@
+@import "./colors.scss";
+
+.pager {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pager-circle {
+  width: 10px;
+  height: 10px;
+  background: $grey2;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pager-circle-selected {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: $blue;
+  margin: 0 5px;
+}
+
+.pager-controller {
+  stroke: $grey2;
+  cursor: pointer;
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: unset;
+  }
+
+  &:hover {
+    stroke: $blue;
+  }
+}

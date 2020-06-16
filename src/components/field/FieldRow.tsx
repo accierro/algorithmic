@@ -39,15 +39,17 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
             className={`${
               c.isWall
                 ? "wall"
-                : c.visited
-                ? "visited"
                 : c.isShortestPath
                 ? "shortest"
+                : c.visited
+                ? "visited"
                 : ""
             }`}
             style={{
               background:
-                c.visited && c.iter != 0 ? getColor(c.iter) : undefined,
+                !c.isShortestPath && c.visited && c.iter != 0
+                  ? getColor(c.iter)
+                  : undefined,
             }}
             key={`${c.x}-${c.y}`}
             onClick={(e) => onClick(e, c.x, c.y)}

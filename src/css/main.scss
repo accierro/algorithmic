@@ -6,6 +6,10 @@
   font-family: "Montserrat", sans-serif;
 }
 
+h1 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
 body {
   height: 100vh;
   margin: 0;
@@ -29,4 +33,11 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+span.shortcut {
+  border: 1px solid $grey1;
+  border-radius: 3px;
+  background: #e4e4e4;
+  padding: 2px;
 }
