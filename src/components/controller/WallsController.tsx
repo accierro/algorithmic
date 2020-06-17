@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import GridSettingsContext from "../../context/GridSettingsContext";
 
-const WallsController: React.FC = () => {
+type WallsControllerProps = {
+  onInfo: () => void;
+};
+
+const WallsController: React.FC<WallsControllerProps> = ({ onInfo }) => {
   const { walls, fieldCallbacks } = useContext(GridSettingsContext);
   return (
     <div style={{ margin: "20px 0" }}>
@@ -20,7 +24,11 @@ const WallsController: React.FC = () => {
           <span style={{ fontSize: "1.2em", fontWeight: 500 }}>{walls}</span>{" "}
           Walls
         </h2>
-        <IoIosInformationCircleOutline size={26} />
+        <IoIosInformationCircleOutline
+          className="clickable"
+          onClick={onInfo}
+          size={26}
+        />
       </div>
       <div
         style={{

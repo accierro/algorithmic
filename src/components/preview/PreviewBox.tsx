@@ -111,7 +111,7 @@ const pages = [
           }}
         />
         <p>
-          Use <b>Reset</b> button if you want clean a field from walls.
+          Use <b>Reset</b> button if you want to clean a field from walls.
         </p>
         <WarningBlock
           warnText="Hint!"
@@ -144,6 +144,13 @@ const PreviewBox: React.FC<PreviewBoxProps> = ({ page = 0, onClose }) => {
           setCurrentPgae(n);
         }}
       />
+      <button
+        className="btn"
+        style={{ position: "absolute", bottom: 29, right: 32 }}
+        onClick={onClose}
+      >
+        Let's go
+      </button>
     </motion.div>
   );
 };

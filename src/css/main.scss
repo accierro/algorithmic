@@ -18,13 +18,39 @@ body {
 
 header {
   font-size: 26px;
-  padding: 16px 0 16px 32px;
+  padding: 0 32px;
+  height: 64px;
   background: $blue5;
   color: $blue;
   box-shadow: $grey6 0 3px 3px;
-  width: calc(100vw - 32px);
-  span {
-    user-select: none;
+  width: 100vw;
+  box-sizing: border-box;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .navigation {
+    font-size: 18px;
+    color: $white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .btn {
+      font-size: 18px;
+      color: $white;
+      outline: none;
+      border: 2px solid transparent;
+      transition: border 0.3s, color 0.3s;
+
+      &:hover {
+        color: $blue;
+        border-bottom: 2px solid $blue;
+      }
+    }
   }
 }
 
@@ -40,4 +66,11 @@ span.shortcut {
   border-radius: 3px;
   background: #e4e4e4;
   padding: 2px;
+}
+
+svg.clickable {
+  cursor: pointer;
+  &:hover {
+    fill: $blue;
+  }
 }

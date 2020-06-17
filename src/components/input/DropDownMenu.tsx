@@ -72,7 +72,8 @@ function DropDownMenu<T extends OptionValue>({
                 background: "rgb(0,0,0)",
                 width: "100vw",
                 height: "100vh",
-                backdropFilter: "blur(8px)",
+                backdropFilter: "blur(3px)",
+                zIndex: 1,
               }}
               onClick={(e) => {
                 e.stopPropagation();
