@@ -4,15 +4,19 @@ import { FaGithub } from "react-icons/fa";
 
 type HeaderProps = {
   onTutorial: () => void;
+  onInfo: () => void;
 };
 
-const Header: React.FC<HeaderProps> = ({ onTutorial }) => {
+const Header: React.FC<HeaderProps> = ({ onTutorial, onInfo }) => {
   return (
     <header>
       <div>Algorithmic</div>
       <div className="navigation">
         <button className="btn" onClick={onTutorial}>
           Tutorial
+        </button>
+        <button className="btn" onClick={onInfo}>
+          Info
         </button>
         <FaGithub
           className="clickable"

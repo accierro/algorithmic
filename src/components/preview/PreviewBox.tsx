@@ -132,7 +132,7 @@ const PreviewBox: React.FC<PreviewBoxProps> = ({ page = 0, onClose }) => {
       className="preview-box"
       initial={{ opacity: 0, translateY: -50 }}
       animate={{ opacity: 1, translateY: 0 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, translateY: 50 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
       <h1 style={{ marginBottom: 0 }}>{pages[currentPage].title}</h1>

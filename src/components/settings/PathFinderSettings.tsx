@@ -8,11 +8,11 @@ import ButtonSwitch from "../input/ButtonSwitch";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 
 type PathFinderSettingsProps = {
-  openTutorial: (n: number) => void;
+  onTutorial: (n: number) => void;
 };
 
 const PathFinderSettings: React.FC<PathFinderSettingsProps> = ({
-  openTutorial,
+  onTutorial,
 }) => {
   const {
     algorithm,
@@ -42,7 +42,7 @@ const PathFinderSettings: React.FC<PathFinderSettingsProps> = ({
           options={Object.values(ALGORITHMS)}
           onChange={(algo: Algorithm) => setAlgorithm(algo)}
         />
-        <WallsController onInfo={() => openTutorial(3)} />
+        <WallsController onInfo={() => onTutorial(3)} />
         <div
           style={{
             display: "flex",
@@ -63,7 +63,7 @@ const PathFinderSettings: React.FC<PathFinderSettingsProps> = ({
           <IoIosInformationCircleOutline
             className="clickable"
             size={26}
-            onClick={() => openTutorial(2)}
+            onClick={() => onTutorial(2)}
           />
         </div>
         <ButtonSwitch

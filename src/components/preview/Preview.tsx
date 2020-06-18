@@ -10,11 +10,9 @@ type PreviewProps = {
 
 const Preview: React.FC<PreviewProps> = ({ onClose, page }) => {
   return (
-    <>
-      <TransparentBackgroundFullScreen>
-        <PreviewBox onClose={onClose} page={page} />
-      </TransparentBackgroundFullScreen>
-    </>
+    <TransparentBackgroundFullScreen>
+      <PreviewBox onClose={onClose} page={page} />
+    </TransparentBackgroundFullScreen>
   );
 };
 
