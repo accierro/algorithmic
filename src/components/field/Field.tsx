@@ -37,7 +37,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
 function isValidWeightIncrease(grid: Cell[][], r: number, c: number): boolean {
   if (r >= 0 && r < grid.length && c >= 0 && c < grid[r].length) {
     const cell = grid[r][c];
-    if (!cell.isWall && !cell.isEnd && !cell.isStart) {
+    if (!cell.isWall && !cell.isEnd && !cell.isStart && !cell.visited) {
       return true;
     }
   }
