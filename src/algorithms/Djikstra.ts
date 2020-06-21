@@ -30,26 +30,25 @@ class Djikstra extends BaseAlgorithm {
 
     if (!this.queue.isEmpty()) {
       const node = this.queue.dequeue() as Cell;
-
       const { x, y } = node;
 
       this.getNeighboors(this.grid, node).forEach((n) => {
         const exisitingDist = this.dist.get(n) as number;
-        const distToNeighboor = (this.dist.get(node) as number) + 1;
+        const distToNeighboor = (this.dist.get(node) as number) + n.weight;
 
         if (distToNeighboor < exisitingDist) {
           this.dist.set(n, distToNeighboor);
 
           if (this.queue.hasValue(n)) {
             this.queue.changePriority(n, distToNeighboor);
+            this.previousCell.set(n, node);
           }
         }
 
         if (!this.queue.hasValue(n)) {
           this.queue.enqueue(n, distToNeighboor);
+          this.previousCell.set(n, node);
         }
-
-        this.previousCell.set(n, node);
       });
 
       if (node === this.targetCell) {
