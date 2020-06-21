@@ -96,7 +96,7 @@ const PathFinderSettings: React.FC<PathFinderSettingsProps> = ({
           <IoIosInformationCircleOutline
             className="clickable"
             size={26}
-            onClick={() => onTutorial(2)}
+            onClick={() => onTutorial(4)}
           />
         </div>
         <CheckBox

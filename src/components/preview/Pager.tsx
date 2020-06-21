@@ -33,7 +33,7 @@ const Pager: React.FC<PagerProps> = ({ current, max, onChange }) => {
         size={25}
         style={{ paddingLeft: "5px" }}
         className={`pager-controller ${current === max - 1 ? "disabled" : ""}`}
-        onClick={() => current < max && onChange(current + 1)}
+        onClick={() => current < max - 1 && onChange(current + 1)}
       />
     </div>
   );

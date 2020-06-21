@@ -120,6 +120,22 @@ const pages = [
       </>
     ),
   },
+  {
+    title: "Weights",
+    body: (
+      <>
+        <p>
+          Each cell has weight which indicates the travel cost to that cell.
+          Weights are used by two algorithms: Djikstra and A*, others ignore
+          that value.
+        </p>
+        <p style={{ marginTop: 0 }}>
+          You can turn on/off displaying weight values inside the cell using a
+          checkbox on the right side.
+        </p>
+      </>
+    ),
+  },
 ];
 
 const PreviewBox: React.FC<PreviewBoxProps> = ({ page = 0, onClose }) => {
