@@ -19,6 +19,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
       row.push({
         x: i,
         y: j,
+        weight: Math.floor(Math.random() * 10),
         visited: false,
         isStart: false,
         isEnd: false,
@@ -36,6 +37,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
 const Field: React.FC<{}> = () => {
   const {
     status,
+    showWeights,
     algorithm,
     speed,
     dimensions,
@@ -173,8 +175,8 @@ const Field: React.FC<{}> = () => {
   const onMouseMoveHandler = useCallback(
     (e: MouseEvent) => {
       if (e.altKey && table.current) {
-        const y = Math.floor((e.pageX - table.current.offsetLeft) / 16);
-        const x = Math.floor((e.pageY - table.current.offsetTop) / 16);
+        const y = Math.floor((e.pageX - table.current.offsetLeft) / 20);
+        const x = Math.floor((e.pageY - table.current.offsetTop) / 20);
         if (
           y >= 0 &&
           x >= 0 &&
@@ -233,6 +235,7 @@ const Field: React.FC<{}> = () => {
               <FieldRow
                 key={i}
                 row={r}
+                showWeights={showWeights}
                 onClick={clickCallback}
                 areEqual={!shouldRender}
               />

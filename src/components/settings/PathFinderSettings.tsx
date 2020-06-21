@@ -6,6 +6,7 @@ import WallsController from "../controller/WallsController";
 import { Algorithm, AlgorithmStatus } from "../../types";
 import ButtonSwitch from "../input/ButtonSwitch";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import CheckBox from "../input/CheckBox";
 
 type PathFinderSettingsProps = {
   onTutorial: (n: number) => void;
@@ -22,6 +23,8 @@ const PathFinderSettings: React.FC<PathFinderSettingsProps> = ({
     fieldCallbacks,
     status,
     setStatus,
+    showWeights,
+    setShowWeights,
   } = useContext(GridSettingsContext);
   return (
     <div className="path-finder-settings">
@@ -72,6 +75,36 @@ const PathFinderSettings: React.FC<PathFinderSettingsProps> = ({
           onChange={(newSpeed) => {
             setSpeed(newSpeed);
           }}
+        />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: "20px",
+          }}
+        >
+          <h2
+            style={{
+              fontWeight: 300,
+              fontSize: "1.35em",
+              margin: "0 16px 0 0",
+            }}
+          >
+            Weights
+          </h2>
+          <IoIosInformationCircleOutline
+            className="clickable"
+            size={26}
+            onClick={() => onTutorial(2)}
+          />
+        </div>
+        <CheckBox
+          value={showWeights}
+          onChange={(val) => {
+            setShowWeights(val);
+          }}
+          label="Show weigths"
         />
         <div
           style={{

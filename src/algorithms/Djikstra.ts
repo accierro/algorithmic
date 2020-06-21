@@ -14,7 +14,7 @@ class Djikstra extends BaseAlgorithm {
 
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
-        if (this.grid[i][j] != this.startCell) {
+        if (this.grid[i][j] !== this.startCell) {
           this.dist.set(this.grid[i][j], Infinity);
           this.previousCell.set(this.grid[i][j], null);
         }
@@ -30,7 +30,7 @@ class Djikstra extends BaseAlgorithm {
 
     if (!this.queue.isEmpty()) {
       const node = this.queue.dequeue() as Cell;
-      const { x, y } = node;
+      const { x } = node;
 
       this.getNeighboors(this.grid, node).forEach((n) => {
         const exisitingDist = this.dist.get(n) as number;
