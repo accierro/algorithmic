@@ -58,9 +58,12 @@
 
   td {
     padding: 0;
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
     border-spacing: 0;
+    font-size: 13px;
+    text-align: center;
+    user-select: none;
 
     &.visited {
       background: $blue;

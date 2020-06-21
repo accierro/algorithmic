@@ -17,6 +17,7 @@ function getColor(iter: number): string {
 type FieldRowProps = {
   row: Cell[];
   areEqual: boolean;
+  showWeights: boolean;
   onClick: (
     e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>,
     r: number,
@@ -24,7 +25,7 @@ type FieldRowProps = {
   ) => void;
 };
 
-const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
+const FieldRow: React.FC<FieldRowProps> = ({ row, showWeights, onClick }) => {
   return (
     <tr>
       {row.map((c) => {
@@ -47,14 +48,14 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
             }`}
             style={{
               background:
-                !c.isShortestPath && c.visited && c.iter != 0
+                !c.isShortestPath && c.visited && c.iter !== 0
                   ? getColor(c.iter)
                   : undefined,
             }}
             key={`${c.x}-${c.y}`}
             onClick={(e) => onClick(e, c.x, c.y)}
           >
-            {""}
+            {showWeights && !c.isWall ? c.weight : ""}
           </td>
         );
       })}
@@ -63,5 +64,9 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
 };
 
 export default memo(FieldRow, (prev, next) => {
-  return prev.onClick === next.onClick && next.areEqual;
+  return (
+    prev.onClick === next.onClick &&
+    next.areEqual &&
+    prev.showWeights === next.showWeights
+  );
 });

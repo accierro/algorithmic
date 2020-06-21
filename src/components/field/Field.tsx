@@ -19,6 +19,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
       row.push({
         x: i,
         y: j,
+        weight: 1,
         visited: false,
         isStart: false,
         isEnd: false,
@@ -33,9 +34,20 @@ function getGrid(rows: number, columns: number): Cell[][] {
   return arr;
 }
 
+function isValidWeightIncrease(grid: Cell[][], r: number, c: number): boolean {
+  if (r >= 0 && r < grid.length && c >= 0 && c < grid[r].length) {
+    const cell = grid[r][c];
+    if (!cell.isWall && !cell.isEnd && !cell.isStart && !cell.visited) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const Field: React.FC<{}> = () => {
   const {
     status,
+    showWeights,
     algorithm,
     speed,
     dimensions,
@@ -155,26 +167,54 @@ const Field: React.FC<{}> = () => {
       r: number,
       c: number
     ) => {
-      if (start === null && !grid.current[r][c].isWall) {
-        setStart({ x: r, y: c });
-        setChangeDiff(new Set([r]));
-        grid.current[r][c].isStart = true;
-      }
-      if (end === null && start !== null && !grid.current[r][c].isWall) {
-        setEnd({ x: r, y: c });
-        setChangeDiff(new Set([r]));
-        grid.current[r][c].isEnd = true;
+      if (showWeights && !(ref && ref.current?.isFinished())) {
+        const set: Set<number> = new Set();
+        if (isValidWeightIncrease(grid.current, r, c)) {
+          set.add(r);
+          grid.current[r][c].weight += 2;
+        }
+        if (isValidWeightIncrease(grid.current, r + 1, c)) {
+          set.add(r + 1);
+          grid.current[r + 1][c].weight += 1;
+        }
+        if (isValidWeightIncrease(grid.current, r - 1, c)) {
+          set.add(r - 1);
+          grid.current[r - 1][c].weight += 1;
+        }
+        if (isValidWeightIncrease(grid.current, r, c + 1)) {
+          set.add(r);
+          grid.current[r][c + 1].weight += 1;
+        }
+        if (isValidWeightIncrease(grid.current, r, c - 1)) {
+          set.add(r);
+          grid.current[r][c - 1].weight += 1;
+        }
+
+        if (set.size > 0) {
+          setChangeDiff(set);
+        }
+      } else {
+        if (start === null && !grid.current[r][c].isWall) {
+          setStart({ x: r, y: c });
+          setChangeDiff(new Set([r]));
+          grid.current[r][c].isStart = true;
+        }
+        if (end === null && start !== null && !grid.current[r][c].isWall) {
+          setEnd({ x: r, y: c });
+          setChangeDiff(new Set([r]));
+          grid.current[r][c].isEnd = true;
+        }
       }
     },
-    [start, end]
+    [start, end, showWeights]
   );
 
   const table = useRef<HTMLTableElement | null>(null);
   const onMouseMoveHandler = useCallback(
     (e: MouseEvent) => {
       if (e.altKey && table.current) {
-        const y = Math.floor((e.pageX - table.current.offsetLeft) / 16);
-        const x = Math.floor((e.pageY - table.current.offsetTop) / 16);
+        const y = Math.floor((e.pageX - table.current.offsetLeft) / 20);
+        const x = Math.floor((e.pageY - table.current.offsetTop) / 20);
         if (
           y >= 0 &&
           x >= 0 &&
@@ -233,6 +273,7 @@ const Field: React.FC<{}> = () => {
               <FieldRow
                 key={i}
                 row={r}
+                showWeights={showWeights}
                 onClick={clickCallback}
                 areEqual={!shouldRender}
               />

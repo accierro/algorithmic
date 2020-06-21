@@ -30,16 +30,17 @@ function App() {
   );
   const [speed, setSpeed] = useState<SpeedOption>(defaultContext.speed);
   const [status, setStatus] = useState<AlgorithmStatus>(defaultContext.status);
+  const [showWeights, setShowWeights] = useState(false);
   const [dimensions, setDimensions] = useState(() => {
     const [vw, vh] = getWidthAndHeight();
     return {
       ...defaultContext.dimensions,
       columns: Math.min(
-        Math.max(Math.floor((vw - 96 - 250) / 16), DIMENSIONS.minColumns),
+        Math.max(Math.floor((vw - 96 - 250) / 20), DIMENSIONS.minColumns),
         DIMENSIONS.maxColumns
       ),
       rows: Math.min(
-        Math.max(Math.floor((vh - 128) / 16), DIMENSIONS.minRows),
+        Math.max(Math.floor((vh - 128) / 20), DIMENSIONS.minRows),
         DIMENSIONS.maxRows
       ),
     };
@@ -49,11 +50,11 @@ function App() {
       const [vw, vh] = getWidthAndHeight();
 
       const columns = Math.min(
-        Math.max(Math.floor((vw - 96 - 250) / 16), DIMENSIONS.minColumns),
+        Math.max(Math.floor((vw - 96 - 250) / 20), DIMENSIONS.minColumns),
         DIMENSIONS.maxColumns
       );
       const rows = Math.min(
-        Math.max(Math.floor((vh - 128) / 16), DIMENSIONS.minRows),
+        Math.max(Math.floor((vh - 128) / 20), DIMENSIONS.minRows),
         DIMENSIONS.maxRows
       );
 
@@ -75,6 +76,7 @@ function App() {
       <GridSettingsContext.Provider
         value={{
           status,
+          showWeights,
           algorithm,
           fieldCallbacks,
           walls,
@@ -85,6 +87,7 @@ function App() {
           setFieldCallbacks,
           setSpeed,
           setStatus,
+          setShowWeights,
         }}
       >
         <MainView />

@@ -120,6 +120,42 @@ const pages = [
       </>
     ),
   },
+  {
+    title: "Weights",
+    body: (
+      <>
+        <p>
+          Each cell has weight which indicates the travel cost to that cell.
+          Weights are used by two algorithms: Djikstra and A*, others ignore
+          that value.
+        </p>
+        <p style={{ marginTop: 0 }}>
+          You can turn on/off displaying weight values inside the cell using a
+          checkbox on the right side.
+        </p>
+        <p style={{ marginTop: 0 }}>
+          In order to adjust weights turn on weights and click on the cell which
+          you want to increase the weight.
+        </p>
+        <WarningBlock
+          warnText="Note!"
+          message="The weight on the cell you clicked increase by 2, but at the same time neighboors weight increase by 1."
+        />
+        <img
+          src={`${process.env.PUBLIC_URL}/WeightAdjustDemo.gif`}
+          alt="Weight adjusting demo"
+          style={{
+            width: "200px",
+            marginTop: "20px",
+            borderRadius: "4px",
+            alignSelf: "center",
+            flexGrow: 0,
+            marginBottom: "20px",
+          }}
+        />
+      </>
+    ),
+  },
 ];
 
 const PreviewBox: React.FC<PreviewBoxProps> = ({ page = 0, onClose }) => {
