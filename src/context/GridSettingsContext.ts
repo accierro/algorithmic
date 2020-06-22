@@ -11,6 +11,7 @@ import {
 export const defaultContext = {
   algorithm: ALGORITHMS[1],
   status: AlgorithmStatus.PREPARATION,
+  showWeights: false,
   fieldCallbacks: {
     reset: () => {},
     resetWalls: () => {},
@@ -24,11 +25,13 @@ export const defaultContext = {
   setFieldCallbacks: () => console.log("setFieldCallbacks NOT IMPLEMENTED"),
   setSpeed: () => console.log("setSpeed NOT IMPLEMENTED"),
   setStatus: () => console.log("setStatus NOT IMPLEMENTED"),
+  setShowWeights: () => console.log("setShowWeights NOT IMPLEMENTED"),
 };
 
 const GridSettingsContext = React.createContext<{
   algorithm: Algorithm;
   status: AlgorithmStatus;
+  showWeights: boolean;
   walls: number;
   speed: SpeedOption;
   fieldCallbacks: FieldCallbacks;
@@ -38,6 +41,7 @@ const GridSettingsContext = React.createContext<{
   setFieldCallbacks: Dispatch<SetStateAction<FieldCallbacks>>;
   setSpeed: Dispatch<SetStateAction<SpeedOption>>;
   setStatus: Dispatch<SetStateAction<AlgorithmStatus>>;
+  setShowWeights: Dispatch<SetStateAction<boolean>>;
 }>(defaultContext);
 
 export default GridSettingsContext;

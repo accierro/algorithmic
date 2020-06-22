@@ -13,13 +13,13 @@ const EndCell: React.FC<EndCellProps> = ({ cell }) => {
       <motion.div
         initial={{ top: "-21px" }}
         animate={{
-          top: "-7px",
+          top: "-6px",
           transition: {
             ease: "easeIn",
             duration: 0.4,
           },
         }}
-        style={{ position: "absolute", left: "-1px" }}
+        style={{ position: "absolute", left: "1px" }}
       >
         <FaMapPin size={16} />
       </motion.div>

@@ -25,6 +25,17 @@ class BaseAlgorithm {
     this.finished = false;
   }
 
+  getColor(): string {
+    const red = 10 - (10 - 6) * (this.iter / (60 * 70));
+    const green = 132 - (132 - 51) * (this.iter / (60 * 70));
+    const blue = 255 - (255 - 97) * (this.iter / (60 * 70));
+
+    return `rgb(${Math.min(10, red)}, ${Math.min(132, green)}, ${Math.min(
+      255,
+      blue
+    )})`;
+  }
+
   getNeighboors(grid: Cell[][], cell: Cell, includeVisited = false): Cell[] {
     this.iter++;
     const neighboors = [];
@@ -33,6 +44,7 @@ class BaseAlgorithm {
       const check = grid[x - 1][y];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.color = this.getColor();
         check.marked = true;
         neighboors.push(check);
       }
@@ -42,6 +54,7 @@ class BaseAlgorithm {
       const check = grid[x][y - 1];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.color = this.getColor();
         check.marked = true;
         neighboors.push(check);
       }
@@ -51,6 +64,7 @@ class BaseAlgorithm {
       const check = grid[x][y + 1];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.color = this.getColor();
         check.marked = true;
         neighboors.push(check);
       }
@@ -60,6 +74,7 @@ class BaseAlgorithm {
       const check = grid[x + 1][y];
       if (!check.isWall && (includeVisited || !check.visited)) {
         check.iter = this.iter;
+        check.color = this.getColor();
         check.marked = true;
         neighboors.push(check);
       }

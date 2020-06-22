@@ -6,8 +6,15 @@ import WallsController from "../controller/WallsController";
 import { Algorithm, AlgorithmStatus } from "../../types";
 import ButtonSwitch from "../input/ButtonSwitch";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import CheckBox from "../input/CheckBox";
 
-const PathFinderSettings: React.FC = () => {
+type PathFinderSettingsProps = {
+  onTutorial: (n: number) => void;
+};
+
+const PathFinderSettings: React.FC<PathFinderSettingsProps> = ({
+  onTutorial,
+}) => {
   const {
     algorithm,
     setAlgorithm,
@@ -16,6 +23,8 @@ const PathFinderSettings: React.FC = () => {
     fieldCallbacks,
     status,
     setStatus,
+    showWeights,
+    setShowWeights,
   } = useContext(GridSettingsContext);
   return (
     <div className="path-finder-settings">
@@ -36,7 +45,7 @@ const PathFinderSettings: React.FC = () => {
           options={Object.values(ALGORITHMS)}
           onChange={(algo: Algorithm) => setAlgorithm(algo)}
         />
-        <WallsController />
+        <WallsController onInfo={() => onTutorial(3)} />
         <div
           style={{
             display: "flex",
@@ -54,7 +63,11 @@ const PathFinderSettings: React.FC = () => {
           >
             Speed
           </h2>
-          <IoIosInformationCircleOutline size={26} />
+          <IoIosInformationCircleOutline
+            className="clickable"
+            size={26}
+            onClick={() => onTutorial(2)}
+          />
         </div>
         <ButtonSwitch
           options={SPEED}
@@ -62,6 +75,36 @@ const PathFinderSettings: React.FC = () => {
           onChange={(newSpeed) => {
             setSpeed(newSpeed);
           }}
+        />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: "20px",
+          }}
+        >
+          <h2
+            style={{
+              fontWeight: 300,
+              fontSize: "1.35em",
+              margin: "0 16px 0 0",
+            }}
+          >
+            Weights
+          </h2>
+          <IoIosInformationCircleOutline
+            className="clickable"
+            size={26}
+            onClick={() => onTutorial(4)}
+          />
+        </div>
+        <CheckBox
+          value={showWeights}
+          onChange={(val) => {
+            setShowWeights(val);
+          }}
+          label="Show weigths"
         />
         <div
           style={{

@@ -3,20 +3,10 @@ import { Cell } from "../../types";
 import StartCell from "./StartCell";
 import EndCell from "./EndCell";
 
-function getColor(iter: number): string {
-  const red = 10 - (10 - 6) * (iter / (60 * 70));
-  const green = 132 - (132 - 51) * (iter / (60 * 70));
-  const blue = 255 - (255 - 97) * (iter / (60 * 70));
-
-  return `rgb(${Math.min(10, red)}, ${Math.min(132, green)}, ${Math.min(
-    255,
-    blue
-  )})`;
-}
-
 type FieldRowProps = {
   row: Cell[];
   areEqual: boolean;
+  showWeights: boolean;
   onClick: (
     e: React.MouseEvent<HTMLTableDataCellElement, MouseEvent>,
     r: number,
@@ -24,7 +14,7 @@ type FieldRowProps = {
   ) => void;
 };
 
-const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
+const FieldRow: React.FC<FieldRowProps> = ({ row, showWeights, onClick }) => {
   return (
     <tr>
       {row.map((c) => {
@@ -39,20 +29,19 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
             className={`${
               c.isWall
                 ? "wall"
-                : c.visited
-                ? "visited"
                 : c.isShortestPath
                 ? "shortest"
+                : c.visited
+                ? "visited"
                 : ""
             }`}
             style={{
-              background:
-                c.visited && c.iter != 0 ? getColor(c.iter) : undefined,
+              background: c.color,
             }}
             key={`${c.x}-${c.y}`}
             onClick={(e) => onClick(e, c.x, c.y)}
           >
-            {""}
+            {showWeights && !c.isWall ? c.weight : ""}
           </td>
         );
       })}
@@ -61,5 +50,9 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, onClick }) => {
 };
 
 export default memo(FieldRow, (prev, next) => {
-  return prev.onClick === next.onClick && next.areEqual;
+  return (
+    prev.onClick === next.onClick &&
+    next.areEqual &&
+    prev.showWeights === next.showWeights
+  );
 });

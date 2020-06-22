@@ -1,6 +1,6 @@
 {
   "name": "algorithmic",
-  "version": "1.0.0",
+  "version": "0.3",
   "private": true,
   "homepage": "https://accierro.github.io/algorithmic/",
   "dependencies": {
@@ -13,7 +13,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-use": "^15.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,9 +40,9 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.150",
     "@types/classnames": "^2.2.10",
     "@types/jest": "^24.0.0",
+    "@types/lodash": "^4.14.150",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
