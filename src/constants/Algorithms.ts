@@ -1,10 +1,4 @@
-import {
-  AlgorithmEnum,
-  Algorithm,
-  AlgorithmStore,
-  Cell,
-  SpeedEnum,
-} from "../types";
+import { AlgorithmEnum, AlgorithmStore, SpeedEnum } from "../types";
 import BreadthFirstSearch from "../algorithms/BreadthFirstSearch";
 import DepthFirstSearch from "../algorithms/DepthFirstSearch";
 import Djikstra from "../algorithms/Djikstra";

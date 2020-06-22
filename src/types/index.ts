@@ -9,6 +9,7 @@ export type Cell = {
   isShortestPath: boolean;
   iter: number;
   marked: boolean;
+  color: string | undefined;
 };
 
 export * from "./enums";

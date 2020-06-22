@@ -6,7 +6,6 @@ import React, {
   useContext,
 } from "react";
 import "../../css/field.scss";
-import _ from "lodash";
 import { Cell, IAlgorithm, AlgorithmStatus } from "../../types";
 import FieldRow from "./FieldRow";
 import GridSettingsContext from "../../context/GridSettingsContext";
@@ -27,6 +26,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
         isShortestPath: false,
         iter: 0,
         marked: false,
+        color: undefined,
       });
     }
     arr.push(row);
@@ -112,7 +112,7 @@ const Field: React.FC<{}> = () => {
         },
       };
     });
-  }, [grid.current]);
+  }, [grid.current, dimensions.columns, dimensions.rows]);
   useEffect(() => {
     if (start && end) {
       if (ref.current === null) {
@@ -215,12 +215,7 @@ const Field: React.FC<{}> = () => {
       if (e.altKey && table.current) {
         const y = Math.floor((e.pageX - table.current.offsetLeft) / 20);
         const x = Math.floor((e.pageY - table.current.offsetTop) / 20);
-        if (
-          y >= 0 &&
-          x >= 0 &&
-          y <= dimensions.columns &&
-          x <= dimensions.rows
-        ) {
+        if (y >= 0 && x >= 0 && y < dimensions.columns && x < dimensions.rows) {
           const cell = grid.current[x][y];
           if (
             cell &&
@@ -235,7 +230,7 @@ const Field: React.FC<{}> = () => {
         }
       }
     },
-    [grid.current]
+    [grid.current, dimensions.rows, dimensions.columns]
   );
 
   useEffect(() => {

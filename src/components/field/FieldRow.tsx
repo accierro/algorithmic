@@ -3,17 +3,6 @@ import { Cell } from "../../types";
 import StartCell from "./StartCell";
 import EndCell from "./EndCell";
 
-function getColor(iter: number): string {
-  const red = 10 - (10 - 6) * (iter / (60 * 70));
-  const green = 132 - (132 - 51) * (iter / (60 * 70));
-  const blue = 255 - (255 - 97) * (iter / (60 * 70));
-
-  return `rgb(${Math.min(10, red)}, ${Math.min(132, green)}, ${Math.min(
-    255,
-    blue
-  )})`;
-}
-
 type FieldRowProps = {
   row: Cell[];
   areEqual: boolean;
@@ -47,10 +36,7 @@ const FieldRow: React.FC<FieldRowProps> = ({ row, showWeights, onClick }) => {
                 : ""
             }`}
             style={{
-              background:
-                !c.isShortestPath && c.visited && c.iter !== 0
-                  ? getColor(c.iter)
-                  : undefined,
+              background: c.color,
             }}
             key={`${c.x}-${c.y}`}
             onClick={(e) => onClick(e, c.x, c.y)}

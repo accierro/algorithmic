@@ -139,7 +139,7 @@ const pages = [
         </p>
         <WarningBlock
           warnText="Note!"
-          message="The weight on the cell you clicked increase by 2, but at the same time neighboors weight increase by 1."
+          message="The weight on the cell you clicked increase by 2, but at the same time neighboors' weights increase by 1."
         />
         <img
           src={`${process.env.PUBLIC_URL}/WeightAdjustDemo.gif`}

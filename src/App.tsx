@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Field from "./components/field/Field";
 import MainView from "./views/MainView";
 import GridSettingsContext, {
   defaultContext,
@@ -40,7 +39,7 @@ function App() {
         DIMENSIONS.maxColumns
       ),
       rows: Math.min(
-        Math.max(Math.floor((vh - 128) / 20), DIMENSIONS.minRows),
+        Math.max(Math.floor((vh - 128 - 50) / 20), DIMENSIONS.minRows),
         DIMENSIONS.maxRows
       ),
     };
@@ -54,7 +53,7 @@ function App() {
         DIMENSIONS.maxColumns
       );
       const rows = Math.min(
-        Math.max(Math.floor((vh - 128) / 20), DIMENSIONS.minRows),
+        Math.max(Math.floor((vh - 128 - 50) / 20), DIMENSIONS.minRows),
         DIMENSIONS.maxRows
       );
 
