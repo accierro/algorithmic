@@ -26,6 +26,7 @@ function getGrid(rows: number, columns: number): Cell[][] {
         isShortestPath: false,
         iter: 0,
         marked: false,
+        color: undefined,
       });
     }
     arr.push(row);
