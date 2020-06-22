@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Field from "./components/field/Field";
 import MainView from "./views/MainView";
 import GridSettingsContext, {
   defaultContext,
