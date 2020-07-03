@@ -18,9 +18,10 @@ const pages = [
     body: (
       <>
         <p>
-          Algorithmic - is pathfinding algorithms visualizer. It was built in
-          order to help to understand how different pathfinding algorithms work
-          and what's the difference between them.
+          Algorithmic is a pathfinding algorithms visualizer. It was built to
+          help with understanding of how different pathfinding algorithms work
+          and demonstrate the differences between them. Currently the following
+          algorithms are supported:
         </p>
         <p>
           Currently following algorithms are supported:
@@ -40,9 +41,10 @@ const pages = [
     body: (
       <>
         <p>
-          In front of you, we can see an interactive field. You are able to
-          select start and finish positions. After that selected algorithm is
-          going to run and try to find a path.
+          In front of you is an interactive field, where you can select the
+          start position and the final destination. When these two points are
+          selected, the algorithm is going to attempt finding a path between
+          them.
         </p>
         <img
           src={`${process.env.PUBLIC_URL}/StartFinishDemo.gif`}
@@ -55,8 +57,8 @@ const pages = [
           }}
         />
         <p>
-          After finishing or in progress you are able to reset the field using a{" "}
-          <b>Reset</b> button.
+          You can reset the field at any point by pressing the <b>'Reset'</b>{" "}
+          button.
         </p>
         <img
           src={`${process.env.PUBLIC_URL}/ResetDemo.gif`}
@@ -76,13 +78,14 @@ const pages = [
     body: (
       <>
         <p>
-          You are able to control how many cells an algorithm can go through in
-          a one tick using three buttons <b>Slow</b>, <b>Medium</b> and{" "}
-          <b>Fast</b>.{" "}
+          You can control the number of cells the algorithm can go through in a
+          single tick (the movement speed) using the three buttons: <b>Slow</b>,{" "}
+          <b>Medium</b>
+          and <b>Fast</b>.
         </p>
         <p style={{ marginTop: 0 }}>
-          Use <b>Pause</b> button to stop an execution, after use the same
-          button to continue execution.
+          You can pause the algorithm at any moment by pressing the <b>Pause</b>{" "}
+          button. Press the same button again to resume the pathfinding process.
         </p>
         <WarningBlock
           warnText="Please Note!"
@@ -96,8 +99,8 @@ const pages = [
     body: (
       <>
         <p>
-          Use <Shortcut shortcut={`${isMac ? "\u2318" : "Ctr"} + Click`} /> and
-          then move your mouse above the field thereby creating walls.
+          Holding <Shortcut shortcut={`${isMac ? "\u2318" : "Ctr"} + Click`} />{" "}
+          and dragging your mouse over the field will create walls.
         </p>
         <img
           src={`${process.env.PUBLIC_URL}/WallDemo.gif`}
@@ -111,11 +114,11 @@ const pages = [
           }}
         />
         <p>
-          Use <b>Reset</b> button if you want to clean a field from walls.
+          <b>Reset</b> button will clear the field of all walls.
         </p>
         <WarningBlock
           warnText="Hint!"
-          message="You can create/delete walls even when algorithm is already running."
+          message="You can create/delete walls even when the algorithm is already running."
         />
       </>
     ),
@@ -125,21 +128,21 @@ const pages = [
     body: (
       <>
         <p>
-          Each cell has weight which indicates the travel cost to that cell.
-          Weights are used by two algorithms: Djikstra and A*, others ignore
-          that value.
+          Each cell is allocated a "weight", which indicates the travel "cost"
+          through that cell. Weights are only used by the two algorithms:
+          Djikstra and A*; others will ignore this value.
         </p>
         <p style={{ marginTop: 0 }}>
-          You can turn on/off displaying weight values inside the cell using a
-          checkbox on the right side.
+          You can show/hide the cell weight values using the checkbox on the
+          right-hand side.
         </p>
         <p style={{ marginTop: 0 }}>
-          In order to adjust weights turn on weights and click on the cell which
-          you want to increase the weight.
+          In order to adjust the cell weights, turn the weight values on and
+          click on the cell you want to increase the weight of.
         </p>
         <WarningBlock
           warnText="Note!"
-          message="The weight on the cell you clicked increase by 2, but at the same time neighboors' weights increase by 1."
+          message="The weight of the cell you clicked on will increase by 2, while the adjacent cells will increase in weight by 1"
         />
         <img
           src={`${process.env.PUBLIC_URL}/WeightAdjustDemo.gif`}

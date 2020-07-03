@@ -14,12 +14,15 @@ const tabs = [
     body: (
       <>
         <p style={{ marginBottom: 0 }}>
-          I built that web application mainly for few reasons.
+          I built this web application primarily for the following reasons:
         </p>
         <ul>
-          <li>Improve my knowledge in Typescript and React.</li>
+          <li>Improve my knowledge of Typescript and React.</li>
           <li>Learn new algorithms.</li>
-          <li>Get better understaning how to optimize React applications.</li>
+          <li>
+            Gain a better understanding of the optimisation of React
+            applications.
+          </li>
         </ul>
       </>
     ),
@@ -28,7 +31,7 @@ const tabs = [
     label: "Stack",
     body: (
       <>
-        <p style={{ marginBottom: 0 }}>The dependancy list is fairly small.</p>
+        <p style={{ marginBottom: 0 }}>The dependency list is fairly short.</p>
         <ul>
           <li>Typesctipt + React</li>
           <li>Animations - Framer Motion</li>
@@ -42,7 +45,7 @@ const tabs = [
       <>
         <ul>
           <li>
-            Make an alternative field using canvas, WASM and Rust. (Sounds
+            Create an alternative field using canvas, WASM and Rust. (Sounds
             promising)
           </li>
         </ul>
